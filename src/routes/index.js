@@ -23,10 +23,10 @@ console.log("index routes")
 export default () => {
     return (
         <Switch>
-            <AppRoute exact path="/" component={Home} layout={UserLayout.UserLayout} />
-            <AppRoute exact path="/signup" component={SignUp} layout={UserLayout.UserLayout1} />
-            <AppRoute exact path="/signin" component={SignIn} layout={UserLayout.UserLayout} />
-            <AppRoute exact path="/profile" component={Profile} layout={UserLayout.UserLayout} />
+            <AppRoute exact path="/" component={Home} layout={UserLayout} />
+            <AppRoute exact path="/signup" component={SignUp} layout={UserLayout} />
+            <AppRoute exact path="/signin" component={SignIn} layout={UserLayout} />
+            <AppRoute exact path="/profile" component={Profile} layout={UserLayout} />
         </Switch>
     )
 }

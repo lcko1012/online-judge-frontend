@@ -6,23 +6,10 @@ function UserLayout({ children }) {
     return (
         <>
             <Header />
-            <div className="container">
-                {children}
-            </div>
+            {children}
             <Footer />
         </>
     )
 }
-function UserLayout1({ children }) {
-    return (
-        <>
 
-            <div className="Signup-container">
-                {children}
-            </div>
-
-        </>
-    )
-}
-
-export default { UserLayout, UserLayout1 }
+export default UserLayout
