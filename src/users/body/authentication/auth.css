@@ -1,0 +1,30 @@
+.Signup-gradient-custom-3 {
+    /* fallback for old browsers */
+    background: #84fab0;
+    height: 100%;
+    margin: 0;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(103, 146, 180, 0.5), rgba(115, 176, 237, 0.5));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(65, 136, 168, 0.5), rgba(99, 173, 208, 0.5))
+  }
+  .Signup-gradient-custom-4 {
+    /* fallback for old browsers */
+    background: #84fab0;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgb(70, 142, 180), rgb(75, 172, 221));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgb(129, 185, 214), rgb(78, 184, 236))
+  }
+  .Signup-bogoc {
+    border-radius: 15px;
+    
+  }
+  .Signup-bg-image{
+    /* background-image: url('./alo.jpg'); */
+    height: 100%;
+    width: 100%;
+  }
