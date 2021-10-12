@@ -4,41 +4,48 @@ import { useParams } from 'react-router-dom'
 
 
 function SignUpActivation() {
-    const { activationToken } = useParams()
-    console.log(activationToken)
-    const [success, setSuccess] = useState(false)
-    useEffect(() => {
-        const registerConfirm = async () => {
-            var postForm = new FormData()
-            postForm.append("activationToken", activationToken)
-
-            try {
-                const res = await axios.post("http://localhost:8080/api/auth/activation", {
-                    activationToken: activationToken
-                })
-                if (res) {
-                    setSuccess(true)
-                }
-            } catch (error) {
-                setSuccess(false)
-            }
+  const { activationToken } = useParams()
+  const [success, setSuccess] = useState(false)
+  useEffect(() => {
+    const registerConfirm = async () => {
+      try {
+        const res = await axios.post("/api/auth/activation", {
+          activationToken: activationToken
+        })
+        if (res) {
+          setSuccess(true)
         }
-        if (activationToken) {
-            registerConfirm()
-        }
-    }, [])
+      } catch (error) {
+        setSuccess(false)
+        console.log(error.response.data.message)
+      }
+    }
+    if (activationToken) {
+      registerConfirm()
+    }
+  }, [])
 
-    return (
-        <main className="main__auth">
-            <div className="register">
-                <h3 style={{ color: "var(--color-primary)" }}>
-                    {success ? "Chúc mừng bạn đã đăng ký tài khoản thành công 🎉" :
-                        "Mã đăng ký không hợp lệ, không thể kích hoạt tài khoản 🙁"
-                    }
-                </h3>
+  return (
+    <section className="bg-image gradient-custom-2 background__color">
+      <div className="mask d-flex align-items-center h-100">
+        <div className="container vh-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div className="card">
+                <div className="bg-white shadow border-0 rounded border-light p-5 w-100  fmxw-500">
+                  <h5 className="text-center">  {success ?
+                    "Congratulations, you have successfully registered an account 🎉" :
+                    "Invalid registration code, cannot activate account 🙁"
+                  }
+                  </h5>
+                </div>
+              </div>
             </div>
-        </main>
-    )
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 export default SignUpActivation

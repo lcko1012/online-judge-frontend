@@ -1,225 +1,158 @@
-import React,  { useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
-import "./auth.css";
+import "./auth.scss";
 import { successNotification, errorNotification } from '../../../utils/notification/ToastNotification'
+import {isMatch, isLength} from '../../../utils/validation/Validation'
+import { Link } from 'react-router-dom';
 
 function SignUp() {
-    const [user, setUser] = useState({
-        name: '',
-        email: '',
-        password: '',
-        matchedPassword: '',
-    })
+  const [dataForm, setDataForm] = useState({
+    username: '',
+    email: '',
+    password: '',
+    matchedPassword: '',
+  })
 
-    const { name, email, password, matchedPassword, err, success } = user
+  const { username, email, password, matchedPassword } = dataForm
 
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target
-        setUser({ ...user, [name]: value, err: '', success: '' })
+  const onChangeInput = e => {
+    const { name, value } = e.target
+    setDataForm({ ...dataForm, [name]: value })
+  }
+
+  const submitForm = async e => {
+    e.preventDefault()
+
+    if (isLength(password)) {
+        return errorNotification("Password is greater than 6 and less than 32 characters")
     }
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-
-        // if (isEmpty(email) || isEmpty(password) || isEmpty(matchedPassword) || isEmpty(name)) {
-        //     return setUser({ ...user, err: 'Hãy điền đầy đủ thông tin', success: '' })
-        // }
-
-        // if (!isEmail(email)) {
-        //     return setUser({ ...user, err: 'Email không đúng định dạng', success: '' })
-        // }
-
-        // if (isLength(password)) {
-        //     return setUser({ ...user, err: "Mật khẩu phải lớn hơn 6 ký tự", success: '' })
-        // }
-
-        // if (!isMatch(matchedPassword, password)) {
-        //     return setUser({ ...user, err: "Mật khẩu không giống nhau", success: '' })
-        // }
-
-        try {
-            var registerForm = new FormData()
-            registerForm.append('name', name)
-            registerForm.append('email', email)
-            registerForm.append('password', password)
-            registerForm.append('matchedPassword', matchedPassword)
-
-            const res = await axios.post("/api/auth/signup", registerForm)
-            if (res.status === 202) {
-                setUser({ ...user, err: '', success: 'Kiểm tra email để kích hoạt tài khoản' })
-            }
-        } catch (err) {
-            // if (err.response.status === 423) {
-            //     setUser({ ...user, err: ' Email đã đăng ký nhưng chưa kích hoạt', success: '' })
-            // }
-            // else if (err.response.status === 409) {
-            //     setUser({ ...user, err: 'Email đã tồn tại', success: '' })
-            // }
-            // else if (err.response.status === 400) {
-            //     setUser({ ...user, err: 'Thông tin không hợp lệ', success: '' })
-            // }
-            // else {
-            //     setUser({ ...user, err: 'Đã có lỗi xảy ra', success: '' })
-            // }
-        }
+    if (!isMatch(matchedPassword, password)) {
+        return errorNotification("Passwords do not match")
     }
 
-    return (
-        <>
-            <section class="vh-100 Signup-bg-image" >
-                <div class="mask d-flex align-items-center h-100 Signup-gradient-custom-3">
-                    <div class="container h-100">
-                        <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                                <div class="card Signup-bogoc" >
-                                    <div class="card-body p-3">
-                                        <h2 class="text-uppercase text-center mb-4">Create an account</h2>
+    try {
+      const res = await axios.post("/api/auth/register", {
+        username: username,
+        email: email,
+        password: password,
+        matchedPassword: matchedPassword
+      })
+      if (res) {
+        successNotification(res.data.message)
+      }
+    } catch (err) {
+      errorNotification(err.response.data.message)
+    }
+  }
 
-                                        <form onSubmit={handleSubmit}>
+  return (
+    <section className="bg-image gradient-custom-2 background__color">
+      <div className="mask d-flex align-items-center h-100">
+        <div className="container">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div className="card signin__form mt-5 mb-5">
+                <div className="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100  fmxw-500">
+                  <div className="text-center text-md-center mb-4 mt-md-0">
+                    <h1 className="mb-0 h3">Create Account</h1>
+                  </div>
 
-                                            <div class="form-outline mb-3">
-                                                <input type="text" id="form3Example1cg" class="form-control form-control-lg" onChange={handleChangeInput} />
-                                                <label class="form-label" for="form3Example1cg">Your Name</label>
-                                            </div>
-
-                                            <div class="form-outline mb-3">
-                                                <input type="email" id="form3Example3cg" class="form-control form-control-lg" onChange={handleChangeInput} />
-                                                <label class="form-label" for="form3Example3cg">Your Email</label>
-                                            </div>
-
-                                            <div class="form-outline mb-3">
-                                                <input type="password" id="form3Example4cg" class="form-control form-control-lg" onChange={handleChangeInput} />
-                                                <label class="form-label" for="form3Example4cg">Password</label>
-                                            </div>
-
-                                            <div class="form-outline mb-3">
-                                                <input type="password" id="form3Example4cdg" class="form-control form-control-lg" onChange={handleChangeInput} />
-                                                <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-                                            </div>
-                                            <div class="d-flex justify-content-center">
-                                                <button type="submit" class="btn btn-success btn-block btn-lg Signup-gradient-custom-4 text-body" >Register</button>
-                                            </div>
-
-                                            <p class="text-center text-muted mt-5 mb-0">Have already an account?<a href="./SignIn" class="fw-bold text-body"><u>Login here</u></a></p>
-
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  <form className="mt-4" onSubmit={submitForm}>
+                    <div className="form-group mb-4">
+                      <label>Your Username</label>
+                      <div className="input-group">
+                        <span className="input-group-text" id="basic-addon1">
+                          <i className="fas fa-user"></i>
+                          <svg className="icon icon-xs text-gray-600" viewBox="0 0 20 20"></svg>
+                        </span>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Username"
+                          required
+                          name="username"
+                          value={username}
+                          onChange={onChangeInput}
+                        />
+                      </div>
                     </div>
-                </div>
-            </section>
 
-        </>
-    )
+                    <div className="form-group mb-4">
+                      <label>Your Email</label>
+                      <div className="input-group">
+                        <span className="input-group-text" id="basic-addon1">
+                          <i className="fas fa-envelope"></i>
+                          <svg className="icon icon-xs text-gray-600" viewBox="0 0 20 20"></svg>
+                        </span>
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder="Username"
+                          required
+                          name="email"
+                          value={email}
+                          onChange={onChangeInput}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group mb-4">
+                      <label>Your Password</label>
+                      <div className="input-group">
+                        <span className="input-group-text" id="basic-addon2">
+                          <i className="fas fa-lock"></i>
+                          <svg className="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" ></svg>
+                        </span>
+                        <input
+                          type="password"
+                          placeholder="Password"
+                          className="form-control"
+                          required
+                          name="password"
+                          value={password}
+                          onChange={onChangeInput}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group mb-4">
+                      <label>Confirm Password</label>
+                      <div className="input-group">
+                        <span className="input-group-text" id="basic-addon2">
+                          <i className="fas fa-lock"></i>
+                          <svg className="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" ></svg>
+                        </span>
+                        <input
+                          type="password"
+                          placeholder="Password"
+                          className="form-control"
+                          required
+                          name="matchedPassword"
+                          value={matchedPassword}
+                          onChange={onChangeInput}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="d-grid">
+                      <button type="submit" className="btn btn-dark">Sign up</button>
+                    </div>
+                  </form>
+
+                  <div className="d-flex justify-content-center align-items-center mt-4">
+                    <span className="fw-normal">
+                      Already have an account? <Link to="/signin" className="fw-bold text-dark">Login here</Link>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 export default SignUp
-// class SignUp extends React.Component {
-//     state = {
-//         Yourname: "",
-//         Youremai: "",
-//         Yourpassword: "",
-//         Yourpasswordrepeat: ""
-//     }
-//     handleOnChangeName = (event) => {
-//         this.setState({
-//             Yourname: event.target.value
-//         })
-
-//     }
-//     handleOnChangeEmail = (event) => {
-//         this.setState({
-//             Youremai: event.target.value
-//         })
-//         console.log(Object.keys(this.state).length)
-//     }
-//     handleOnChangePassword = (event) => {
-//         this.setState({
-//             Yourpassword: event.target.value
-//         })
-//     }
-//     handleOnChangePasswordRepeat = (event) => {
-//         this.setState({
-//             Yourpasswordrepeat: event.target.value
-//         })
-//     }
-//     // submitForm = () => {
-//     //     console.log(this.state)
-
-//     // }
-//     submitForm = async (e) => {
-//         // e.preventDefault()
-//         // if (isEmpty(username) || isEmpty(password)) return errorNotification("Please fill all fields")
-//         // if (isLength(password)) return errorNotification("Password is greater than 6 and less than 32 characters")
-
-//         // console.log(username, password)
-
-//         try {
-//             const res = await axios.post("./SignIn", {
-//                 Yourname: this.state.Yourname,
-//                 Youremail: this.state.Youremai
-//             })
-
-//             console.log(res.data)
-//         } catch (err) {
-//             // errorNotification(err.response.data.message)
-//             console.log("ngu ghe")
-//         }
-
-//     }
-//     render() {
-//         return (
-//             <>
-//                 <section class="vh-100 Signup-bg-image" >
-//                     <div class="mask d-flex align-items-center h-100 Signup-gradient-custom-3">
-//                         <div class="container h-100">
-//                             <div class="row d-flex justify-content-center align-items-center h-100">
-//                                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-//                                     <div class="card Signup-bogoc" >
-//                                         <div class="card-body p-3">
-//                                             <h2 class="text-uppercase text-center mb-4">Create an account</h2>
-
-//                                             <form onSubmit={() => this.submitForm()}>
-
-//                                                 <div class="form-outline mb-3">
-//                                                     <input type="text" id="form3Example1cg" value={this.state.Yourname} onChange={(event) => this.handleOnChangeName(event)} class="form-control form-control-lg" />
-//                                                     <label class="form-label" for="form3Example1cg">Your Name</label>
-//                                                 </div>
-
-//                                                 <div class="form-outline mb-3">
-//                                                     <input type="email" id="form3Example3cg" value={this.state.Youremai} onChange={(event) => this.handleOnChangeEmail(event)} class="form-control form-control-lg" />
-//                                                     <label class="form-label" for="form3Example3cg">Your Email</label>
-//                                                 </div>
-
-//                                                 <div class="form-outline mb-3">
-//                                                     <input type="password" id="form3Example4cg" value={this.state.Yourpassword} onChange={(event) => this.handleOnChangePassword(event)} class="form-control form-control-lg" />
-//                                                     <label class="form-label" for="form3Example4cg">Password</label>
-//                                                 </div>
-
-//                                                 <div class="form-outline mb-3">
-//                                                     <input type="password" id="form3Example4cdg" value={this.state.Yourpasswordrepeat} onChange={(event) => this.handleOnChangePasswordRepeat(event)} class="form-control form-control-lg" />
-//                                                     <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-//                                                 </div>
-//                                                 <div class="d-flex justify-content-center">
-//                                                     <button type="submit" class="btn btn-success btn-block btn-lg Signup-gradient-custom-4 text-body" >Register</button>
-//                                                 </div>
-
-//                                                 <p class="text-center text-muted mt-5 mb-0">Have already an account?<a href="./SignIn" class="fw-bold text-body"><u>Login here</u></a></p>
-
-//                                             </form>
-
-//                                         </div>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </section>
-//             </>
-//         )
-//     }
-// }
-// export default SignUp;

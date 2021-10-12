@@ -21,7 +21,6 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
         } />
     )
 }
-console.log("index routes")
 
 export default () => {
     const authContext = useContext(AuthContext)
