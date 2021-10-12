@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import "./auth.css"
+import "./auth.scss"
 import AuthContext from '../../../context/authentication/authContext'
 import CookiesService from '../../../services/CookiesService'
 import { isEmpty, isLength } from '../../../utils/validation/Validation'
@@ -30,8 +30,6 @@ function SignIn() {
 
     if (isEmpty(username) || isEmpty(password)) return errorNotification("Please fill all fields")
     if (isLength(password)) return errorNotification("Password is greater than 6 and less than 32 characters")
-
-    console.log(username, password)
 
     try {
       const res = await axios.post("/api/auth/login", {
