@@ -1,11 +1,7 @@
-import React from 'react'
+import React,  { useState } from 'react'
 import axios from 'axios';
 import "./auth.css";
-import { useState } from 'react'
-import { showErrMsg, showSuccessMsg } from '../../utils/notification/Notification'
-import { isEmail, isEmpty, isLength, isMatch } from '../../utils/validation/Validation'
-import { GoogleLogin } from 'react-google-login'
-import authApis from './enum/authentication-apis'
+import { successNotification, errorNotification } from '../../../utils/notification/ToastNotification'
 
 function SignUp() {
     const [user, setUser] = useState({
@@ -13,8 +9,6 @@ function SignUp() {
         email: '',
         password: '',
         matchedPassword: '',
-        err: '',
-        success: ''
     })
 
     const { name, email, password, matchedPassword, err, success } = user
@@ -27,21 +21,21 @@ function SignUp() {
     const handleSubmit = async e => {
         e.preventDefault()
 
-        if (isEmpty(email) || isEmpty(password) || isEmpty(matchedPassword) || isEmpty(name)) {
-            return setUser({ ...user, err: 'Hãy điền đầy đủ thông tin', success: '' })
-        }
+        // if (isEmpty(email) || isEmpty(password) || isEmpty(matchedPassword) || isEmpty(name)) {
+        //     return setUser({ ...user, err: 'Hãy điền đầy đủ thông tin', success: '' })
+        // }
 
-        if (!isEmail(email)) {
-            return setUser({ ...user, err: 'Email không đúng định dạng', success: '' })
-        }
+        // if (!isEmail(email)) {
+        //     return setUser({ ...user, err: 'Email không đúng định dạng', success: '' })
+        // }
 
-        if (isLength(password)) {
-            return setUser({ ...user, err: "Mật khẩu phải lớn hơn 6 ký tự", success: '' })
-        }
+        // if (isLength(password)) {
+        //     return setUser({ ...user, err: "Mật khẩu phải lớn hơn 6 ký tự", success: '' })
+        // }
 
-        if (!isMatch(matchedPassword, password)) {
-            return setUser({ ...user, err: "Mật khẩu không giống nhau", success: '' })
-        }
+        // if (!isMatch(matchedPassword, password)) {
+        //     return setUser({ ...user, err: "Mật khẩu không giống nhau", success: '' })
+        // }
 
         try {
             var registerForm = new FormData()
@@ -50,50 +44,27 @@ function SignUp() {
             registerForm.append('password', password)
             registerForm.append('matchedPassword', matchedPassword)
 
-            const res = await axios.post(authApis.register, registerForm)
+            const res = await axios.post("/api/auth/signup", registerForm)
             if (res.status === 202) {
                 setUser({ ...user, err: '', success: 'Kiểm tra email để kích hoạt tài khoản' })
             }
         } catch (err) {
-            if (err.response.status === 423) {
-                setUser({ ...user, err: ' Email đã đăng ký nhưng chưa kích hoạt', success: '' })
-            }
-            else if (err.response.status === 409) {
-                setUser({ ...user, err: 'Email đã tồn tại', success: '' })
-            }
-            else if (err.response.status === 400) {
-                setUser({ ...user, err: 'Thông tin không hợp lệ', success: '' })
-            }
-            else {
-                setUser({ ...user, err: 'Đã có lỗi xảy ra', success: '' })
-            }
+            // if (err.response.status === 423) {
+            //     setUser({ ...user, err: ' Email đã đăng ký nhưng chưa kích hoạt', success: '' })
+            // }
+            // else if (err.response.status === 409) {
+            //     setUser({ ...user, err: 'Email đã tồn tại', success: '' })
+            // }
+            // else if (err.response.status === 400) {
+            //     setUser({ ...user, err: 'Thông tin không hợp lệ', success: '' })
+            // }
+            // else {
+            //     setUser({ ...user, err: 'Đã có lỗi xảy ra', success: '' })
+            // }
         }
     }
 
-    const responseGoogle = async (response) => {
-        console.log(response)
-        try {
-            const google_token = response.tokenId
-            var registerForm = new FormData()
-            registerForm.append('google_token', google_token)
-
-            const res = await axios.post(authApis.registerByGoogle, registerForm)
-            setUser({ ...user, err: '', success: 'Mật khẩu đã được gửi tới gmail của bạn' })
-        } catch (err) {
-            if (err.response.status === 401) {
-                setUser({ ...user, err: 'Sai email hoặc password', success: '' })
-            }
-            else if (err.response.status === 400) {
-                setUser({ ...user, err: 'Email hoặc password không hợp lệ', success: '' })
-            }
-            else {
-                setUser({ ...user, err: 'Đã có lỗi xảy ra', success: '' })
-            }
-        }
-
-    }
     return (
-
         <>
             <section class="vh-100 Signup-bg-image" >
                 <div class="mask d-flex align-items-center h-100 Signup-gradient-custom-3">
