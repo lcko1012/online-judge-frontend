@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthState from './context/authentication/AuthState'
+import "./services/AxiosInterceptors"
 
 ReactDOM.render(
   <React.StrictMode>

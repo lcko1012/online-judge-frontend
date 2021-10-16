@@ -18,11 +18,7 @@ const AuthState = (props) => {
 
     const loadUser = async () => {
         try {
-            const res = await axios.get('/api/user/whoami', {
-                headers: {
-                    "Authorization": cookiesService.getToken()
-                }
-            })
+            const res = await axios.get('/api/user/whoami')
 
             dispatch({
                 type: GET_USER,
