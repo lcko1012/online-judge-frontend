@@ -1,0 +1,123 @@
+.home__left {
+    .home__title-container {
+        margin-top: 40%;
+        position: relative;
+    }
+    
+    .home__title {
+        font-size: 45px;
+        font-weight: 600;
+    }
+
+    .home__sub-title {
+        font-size: 20px;
+    }
+
+}
+
+.home__posts {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+
+    .home__post {
+        color: white;
+        margin-top: 20px;
+        height: 150px;
+        width: auto;
+        background-color: #212529;
+        border-radius: 5px;
+        border-left: 10px solid rgb(0, 0, 0);
+        padding: 20px 30px;
+        transition: 0.25s;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .home__post--title {
+            font-size: 18px;
+        }
+        .home__post--content {
+            font-size: 15px;
+        }
+    
+        .home__post--infor {
+            font-size: 13px;
+            margin-top: 5px;
+            display: flex;
+            justify-content: end;
+        }
+    
+        p {
+            margin: 0;
+        }
+    }
+
+    
+
+   
+}
+
+$speed: 0.5s;
+
+.btn-flip{
+    opacity: 1;
+    outline: 0;
+    color: #fff;
+    line-height: 40px;
+    position: relative;
+    text-align: center;
+    letter-spacing: 1px;
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Open Sans';
+    text-transform: uppercase;
+    border-radius: 5px;
+    
+    &:hover{
+        
+        &:after{
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+        }
+        
+        &:before{
+        opacity: 0;
+        transform: translateY(50%) rotateX(90deg);
+        }
+    }
+    
+    &:after{
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        color: white;
+        display: block;
+        transition: $speed;
+        position: absolute;
+        background: #6b6bf8;
+        content: attr(data-back);
+        transform: translateY(-50%) rotateX(90deg);
+    }
+    
+    &:before{
+        top: 0;
+        left: 0;
+        opacity: 1;
+        color: #adadaf;
+        display: block;
+        padding: 0 30px;
+        line-height: 40px;
+        transition: $speed;
+        position: relative;
+        background: #323237;
+        content: attr(data-front);
+        transform: translateY(0) rotateX(0);
+    }
+}
