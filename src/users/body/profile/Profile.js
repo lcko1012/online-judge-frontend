@@ -1,88 +1,144 @@
-import React, { useState } from 'react'
-import '../profile/Profile.css'
+import React, { useState, useContext, useEffect } from 'react'
+import { Editprofile } from './EditProfile'
+import './Profile.scss'
+import AuthContext from '../../../context/authentication/authContext'
+import axios from 'axios'
+import { isImgFormat, isImgSize } from '../../../utils/validation/Validation'
+import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
 
 function Profile() {
-
-    const [tab, setActiveTab] = useState(1)
+    const authContext = useContext(AuthContext)
+    const { user } = authContext
+    const [tab, setActiveTab] = useState(0)
+    const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl)
+    const [isUpdated, setIsUpdated] = useState(false)
 
     const activeTab = (index) => {
         setActiveTab(index)
     }
 
+    const handleChangeAvatar = async (e) => {
+        e.preventDefault()
+        try {
+            const file = e.target.files[0]
+            if (!file) {
+                return 
+            }
+
+            if (!isImgFormat(file)) return errorNotification("Wrong image format")
+
+            if (!isImgSize(file)) return errorNotification("Image size is less than 2MB")
+
+            var formImage = new FormData()
+            formImage.append('file', file)
+
+            const res = await axios.post("/api/upload_image", formImage)
+
+            if (res) {
+                setAvatarUrl(res.data.url)
+                setIsUpdated(true)
+            }
+        } catch (error) {
+            errorNotification(error.response.data.message)
+        }
+    }
+
+    const updateAvatar = async () => {
+        try {
+            const res = await axios.put("/api/user/update/avatar", {
+                avatarUrl: avatarUrl
+            })
+            successNotification(res.data.message)
+            setIsUpdated(false)
+        } catch (error) {
+            errorNotification(error.response.data.message)
+        }
+    }
+
     return (
-        <div>
-            <div className="container" style={{ width: 1000 }}>
+        <div className="background__color profile__container">
+            <div className="container">
                 <div className="view-account">
                     <section className="module">
                         <div className="module-inner">
                             <div className="side-bar">
                                 <div className="user-info">
-                                    <img className="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                                    <button className="btn btn-dark profile__save-img-btn p-1" 
+                                    style={{visibility: !isUpdated ? 'hidden' : 'inherit'}}
+                                    onClick={updateAvatar}
+                                    >Save</button>
+                                    <div className="profile__avatar">
+                                        <img className="img-profile img-circle img-responsive center-block" src={avatarUrl} alt="" />
+
+                                        <span>
+                                            <i className="fas fa-camera"></i>
+                                            <input type="file" name="file" id="file_up" onChange={(e) => handleChangeAvatar(e)} />
+                                        </span>
+                                    </div>
+                                    <label>{user.username}</label>
                                 </div>
                                 <nav className="side-menu">
                                     <ul className="nav">
-                                        <li><a className={tab === 0 ? "tabs active-tabs" : "tabs"} onClick={() => activeTab(0)}><span className="fa fa-user"></span> Profile</a></li>
-                                        <li><a className={tab === 1 ? "tabs active-tabs" : "tabs"} onClick={() => activeTab(1)}><span className="fa fa-cog"></span> Settings</a></li>
+                                        <li className={tab === 0 ? "active" : null} onClick={() => activeTab(0)}><a href><span className="fa fa-user"></span> Profile</a></li>
+                                        <li className={tab === 1 ? "active" : null} onClick={() => activeTab(1)}><a ><span className="fa fa-cog"></span> Settings</a></li>
                                     </ul>
-                                </nav>  
-
-                    
+                                </nav>
                             </div>
-                            <div className="content-panel">
-                                <form className="form-horizontal">
-                                    <fieldset className="fieldset">
-                                        <h2 className="fieldset-title">Information</h2>
-                                        <div className="form-group">
-                                            <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Email</label>
-                                            <div className="col-md-10 col-sm-9 col-xs-12">
-                                                <input type="text" className="form-control" />
-                                            </div>
-                                        </div>
+                            {tab === 0 ?
+                                <div className="content-panel">
+                                    <form className="form-horizontal">
+                                        <fieldset className="fieldset">
+                                            <h2 className="fieldset-title">Information</h2>
+                                            <div className="ps-4">
+                                                <div className="form-group row">
+                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Username</label>
+                                                    <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.username}</p>
+                                                </div>
+                                                <div className="form-group row">
+                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Email</label>
+                                                    <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.email}</p>
+                                                </div>
 
-                                        <div className="form-group">
-                                            <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">First Name</label>
-                                            <div className="col-md-10 col-sm-9 col-xs-12">
-                                                <input type="text" className="form-control" />
+                                                <div className="form-group row">
+                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">First Name</label>
+                                                    <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.firstName ? user.firstName : ""}</p>
+                                                </div>
+                                                <div className="form-group row">
+                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Last Name</label>
+                                                    <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.lastName ? user.lastName : ""}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Last Name</label>
-                                            <div className="col-md-10 col-sm-9 col-xs-12">
-                                                <input type="text" className="form-control" />
-                                            </div>
-                                        </div>
 
-                                        <div className="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0 mt-3">
-                                            <input className="btn btn-primary" type="submit" value="Save" />
-                                        </div>
-                                    </fieldset>
-                                    <fieldset className="fieldset">
-                                        <h3 className="fieldset-title mt-5">Edit Password</h3>
-                                        <div className="form-group">
-                                            <label className="col-md-4 col-sm-3 col-xs-12 control-label fw-bold">Current Password</label>
-                                            <div className="col-md-10 col-sm-9 col-xs-12">
-                                                <input type="email" className="form-control" />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="col-md-2  col-sm-3 col-xs-12 control-label mt-2 fw-bold">New Password</label>
-                                            <div className="col-md-10 col-sm-9 col-xs-12">
-                                                <input type="text" className="form-control" />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="col-md-4  col-sm-3 col-xs-12 control-label mt-2 fw-bold">Comfirm PassWord</label>
-                                            <div className="col-md-10 col-sm-9 col-xs-12">
-                                                <input type="url" className="form-control" />
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </form>
+                                        </fieldset>
+                                    </form>
+                                    <hr></hr>
+                                    <div>
+                                        <fieldset className="fieldset">
+                                            <h3 className="fieldset-title mb-5 mt-2">My Group</h3>
+                                            <div className="ps-4">
+                                                <div className="profile__group-container">
+                                                    <p>Class C++</p>
+                                                    <p>Class abc</p>
+                                                    <p>My Group 123</p>
+                                                    <p>Class ITJP2</p>
+                                                    <p>Class abc</p>
+                                                    <p>My Group 123</p>
+                                                    <p>Class ITJP2</p><p>Class abc</p>
+                                                    <p>My Group 123</p>
+                                                    <p>Class ITJP2</p>
 
-                                <div className="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0 mt-3">
-                                    <input className="btn btn-primary" type="submit" value="Save" />
+                                                    <p>Class abc</p>
+                                                    <p>My Group 123</p>
+                                                    <p>Class ITJP2</p><p>Class abc</p>
+                                                    <p>My Group 123</p>
+                                                    <p>Class ITJP2</p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
-                            </div>
+                                : <Editprofile />
+                            }
                         </div>
                     </section>
                 </div>

@@ -24,13 +24,13 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
 
 export default () => {
     const authContext = useContext(AuthContext)
-    const {isAuthenticated} = authContext
+    const {isAuthenticated, user} = authContext
     return (
         <Switch>            
             <AppRoute exact path="/"  component={Home} layout={UserLayout}/>
             <AppRoute exact path="/signup" component={isAuthenticated ? Home : SignUp} layout={UserLayout} />
             <AppRoute exact path="/signin" component={isAuthenticated ? Home : SignIn} layout={UserLayout} />
-            <AppRoute exact path="/profile" component={isAuthenticated ? Profile : SignIn} layout={UserLayout} />
+            <AppRoute exact path="/profile" component={user ? Profile : SignIn} layout={UserLayout} />
             <AppRoute exact path="/forgot_password" component={ForgotPassword} layout={UserLayout} />
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
 
