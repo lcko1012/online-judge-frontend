@@ -28,7 +28,7 @@ function SignIn() {
   const submitForm = async (e) => {
     e.preventDefault()
 
-    if (isEmpty(username) || isEmpty(password)) return errorNotification("Please fill all fields")
+    if (isEmpty(username) || isEmpty(password)) return errorNotification("Please fill in all fields")
     if (isLength(password)) return errorNotification("Password is greater than 6 and less than 32 characters")
 
     try {

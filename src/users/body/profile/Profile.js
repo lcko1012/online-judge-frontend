@@ -79,8 +79,8 @@ function Profile() {
                                 </div>
                                 <nav className="side-menu">
                                     <ul className="nav">
-                                        <li className={tab === 0 ? "active" : null} onClick={() => activeTab(0)}><a href><span className="fa fa-user"></span> Profile</a></li>
-                                        <li className={tab === 1 ? "active" : null} onClick={() => activeTab(1)}><a ><span className="fa fa-cog"></span> Settings</a></li>
+                                        <li className={tab === 0 ? "active" : null} onClick={() => activeTab(0)}><a className="cursor-pointer"><span className="fa fa-user"></span> Profile</a></li>
+                                        <li className={tab === 1 ? "active" : null} onClick={() => activeTab(1)}><a className="cursor-pointer"><span className="fa fa-cog"></span> Settings</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -91,20 +91,20 @@ function Profile() {
                                             <h2 className="fieldset-title">Information</h2>
                                             <div className="ps-4">
                                                 <div className="form-group row">
-                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Username</label>
+                                                    <label className="col-md-3 col-sm-3 col-xs-12 control-label fw-bold">Username</label>
                                                     <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.username}</p>
                                                 </div>
                                                 <div className="form-group row">
-                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Email</label>
+                                                    <label className="col-md-3 col-sm-3 col-xs-12 control-label fw-bold">Email</label>
                                                     <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.email}</p>
                                                 </div>
 
                                                 <div className="form-group row">
-                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">First Name</label>
+                                                    <label className="col-md-3 col-sm-3 col-xs-12 control-label fw-bold">First Name</label>
                                                     <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.firstName ? user.firstName : ""}</p>
                                                 </div>
                                                 <div className="form-group row">
-                                                    <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Last Name</label>
+                                                    <label className="col-md-3 col-sm-3 col-xs-12 control-label fw-bold">Last Name</label>
                                                     <p className="col-md-8 col-sm-3 col-xs-12 control-label">{user.lastName ? user.lastName : ""}</p>
                                                 </div>
                                             </div>
