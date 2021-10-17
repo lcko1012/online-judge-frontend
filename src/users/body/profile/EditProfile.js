@@ -30,10 +30,9 @@ export function Editprofile() {
 
     const submitPassword = async (e) => {
         e.preventDefault()
-        console.log("submit password")
         try {
             const {password, oldPassword, matchedPassword} = userInfor
-            if(isEmpty(password) || isEmpty(oldPassword) || isEmpty(matchedPassword)) return errorNotification("Please fill all fields")
+            if(isEmpty(password) || isEmpty(oldPassword) || isEmpty(matchedPassword)) return errorNotification("Please fill in all fields")
             if(isLength(password) || isLength(oldPassword) || isLength(matchedPassword)) return errorNotification("Password is greater than 6 and less than 32 characters")
             if(!isMatch(matchedPassword, password)) return errorNotification("Passwords do not match")
             
@@ -59,7 +58,7 @@ export function Editprofile() {
 
         try {
             const{email} = userInfor
-
+            if(!email) return errorNotification("Please fill in email field")
             if(!isEmail(email)) return errorNotification("Please enter a valid email address!")
 
             const res = await axios.put("/api/user/update/information", {
@@ -94,7 +93,7 @@ export function Editprofile() {
                         <h2 className="fieldset-title">Information</h2>
                         <div className="ps-4"> 
                         <div className="form-group">
-                            <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Email</label>
+                            <label className="col-md-2 col-sm-3 col-xs-12 control-label fw-bold">Email<span className="text-danger">*</span></label>
                             <div className="col-md-10 col-sm-9 col-xs-12">
                                 <input type="email" className="form-control" value={userInfor.email} name="email" onChange={onChangeField}/>
                             </div>
@@ -125,19 +124,19 @@ export function Editprofile() {
                             <h3 className="fieldset-title mt-5">Edit Password</h3>
                             <div className="ps-4"> 
                             <div className="form-group">
-                                <label className="col-md-4 col-sm-3 col-xs-12 control-label fw-bold">Current Password</label>
+                                <label className="col-md-4 col-sm-3 col-xs-12 control-label fw-bold">Current Password<span className="text-danger">*</span></label>
                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                     <input type="password" className="form-control" value={userInfor.oldPassword} name="oldPassword" onChange={onChangeField} />
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-md-2  col-sm-3 col-xs-12 control-label mt-2 fw-bold">New Password</label>
+                                <label className="col-md-4 col-sm-3 col-xs-12 control-label mt-2 fw-bold">New Password<span className="text-danger">*</span></label>
                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                     <input type="password" className="form-control" value={userInfor.password} name="password" onChange={onChangeField} />
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-md-4  col-sm-3 col-xs-12 control-label mt-2 fw-bold">Comfirm PassWord</label>
+                                <label className="col-md-4  col-sm-3 col-xs-12 control-label mt-2 fw-bold">Comfirm Password<span className="text-danger">*</span></label>
                                 <div className="col-md-10 col-sm-9 col-xs-12">
                                     <input type="password" className="form-control" value={userInfor.matchedPassword} name="matchedPassword" onChange={onChangeField} />
                                 </div>
