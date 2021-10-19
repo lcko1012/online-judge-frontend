@@ -9,6 +9,8 @@ function InforReducer(state, action) {
   switch (action.type) {
     case 'ON_CHANGE':
         return {...state, [action.payload.name]: action.payload.value}
+    case 'RESET_PASSWORD_FORM':
+        return {...state, password: "", matchedPassword: "", oldPassword: ""}
     default:
       return state
   }
@@ -45,6 +47,7 @@ export function Editprofile() {
 
             if(res) {
                 successNotification(res.data.message)
+                dispatch({type: "RESET_PASSWORD_FORM"})
             }
         } catch (error) {
             errorNotification(error.response.data.message)
