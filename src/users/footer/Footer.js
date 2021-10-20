@@ -15,7 +15,7 @@ function Footer() {
             </div> */}
 
             <div class="text-center p-3" style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
-                © 2021 Copyright: <Link class="text-white" href="">OnlineJudge.com</Link>
+                © 2021 Copyright: <span class="text-white">OnlineJudge.com</span>
             </div>
         </footer>
     )
