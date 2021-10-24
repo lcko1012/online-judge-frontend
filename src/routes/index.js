@@ -13,6 +13,7 @@ import AdminPost from '../admin/body/post/AdminPost'
 import AdminPostDetail from '../admin/body/post/AdminPostDetail'
 import AdminLayout from '../layouts/AdminLayout'
 import _403 from '../utils/page/_403'
+import ResetPassword from '../users/body/authentication/ResetPassword'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -38,6 +39,7 @@ export default () => {
             <AppRoute exact path="/signin" component={isAuthenticated ? Home : SignIn} layout={UserLayout} />
             <AppRoute exact path="/profile" component={user ? Profile : SignIn} layout={UserLayout} />
             <AppRoute exact path="/forgot_password" component={ForgotPassword} layout={UserLayout} />
+            <AppRoute exact path="/reset_password/:accessToken" component={ResetPassword} layout={UserLayout} />
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
 
             <AppRoute exact path="/admin/home" component={rule ? _403 : AdminHome} layout={AdminLayout} />

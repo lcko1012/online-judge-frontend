@@ -69,7 +69,6 @@ function SignIn() {
                           type="text" 
                           className="form-control" 
                           placeholder="Username" 
-                          autofocus 
                           required 
                           name="username"
                           value={username}
