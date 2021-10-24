@@ -88,7 +88,7 @@ function SignUp() {
                         <input
                           type="email"
                           className="form-control"
-                          placeholder="Username"
+                          placeholder="naruto@gmail.com"
                           required
                           name="email"
                           value={email}
