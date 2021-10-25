@@ -121,3 +121,12 @@ $speed: 0.5s;
         transform: translateY(0) rotateX(0);
     }
 }
+.modal-body-height{
+    min-height: 400px;
+}
+.post-infor{
+    font-size: 13px;
+    display: flex;
+    margin-right: 15px;
+    justify-content: end;
+}
