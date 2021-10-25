@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../../context/authentication/authContext'
-import "./header.css"
+import "./header.scss"
 
 function Header() {
   const authContext = useContext(AuthContext)
-  const { isAuthenticated, user, logout } = authContext
+  const {  user, logout } = authContext
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
       <div className="container-fluid container">
@@ -38,7 +38,7 @@ function Header() {
                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {user ? user.username : null}
                     </a>
-                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul className="dropdown-menu header__drop-box" aria-labelledby="navbarDropdown">
                       {user.role === "Regular User" ? null :
                       <li><Link className="dropdown-item" to="/admin/home">Admin page</Link></li>
                       }

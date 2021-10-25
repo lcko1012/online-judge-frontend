@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import "./auth.scss";
 import { successNotification, errorNotification } from '../../../utils/notification/ToastNotification'
-import {isMatch, isLength} from '../../../utils/validation/Validation'
+import { isMatch, isLength } from '../../../utils/validation/Validation'
 import { Link } from 'react-router-dom';
 
 function SignUp() {
@@ -24,11 +24,11 @@ function SignUp() {
     e.preventDefault()
 
     if (isLength(password)) {
-        return errorNotification("Password is greater than 6 and less than 32 characters")
+      return errorNotification("Password is greater than 6 and less than 32 characters")
     }
 
     if (!isMatch(matchedPassword, password)) {
-        return errorNotification("Passwords do not match")
+      return errorNotification("Passwords do not match")
     }
 
     try {
