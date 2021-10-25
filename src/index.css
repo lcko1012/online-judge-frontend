@@ -20,3 +20,6 @@ a {
   cursor: pointer;
 }
 
+.d-flex-basis-100 {
+  flex-basis: 100%;
+}
