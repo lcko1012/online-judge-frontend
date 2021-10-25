@@ -75,7 +75,7 @@ function AdminPost() {
 	const currentPosts = postList.slice(indexOfFirstPost, indexOfLastPost)
 
 	const onClickNext = () => {
-		if (currentPage < Math.round(postList.length / postsPerPage)) {
+		if (currentPage <= Math.floor(postList.length / postsPerPage)) {
 			dispatch({type: ACTIONS.NEXT_PAGE})
 		}
 	}
@@ -116,7 +116,7 @@ function AdminPost() {
 	}
 
 	return (
-		<div className="h-100">
+		<div className="min-vh-100">
 			<div className="container mt-5 mb-5">
 				<div className="d-flex align-items-center justify-content-between mb-4">
 					<div>
@@ -163,9 +163,9 @@ function AdminPost() {
 									{
 										currentPosts.map((post, index) =>
 											<tr key={post.id}>
-												<td><span className="fw-normal">{index}</span></td>
+												<td><span className="fw-normal">{currentPage*10-10 + index}</span></td>
 												<td><span className="fw-normal">{post.id}</span></td>
-												<td><span className="fw-normal">{post.title}</span></td>
+												<td><span className="fw-normal">{post.title.length > 20 ? `${post.title.slice(0,20)}...` : post.title}</span></td>
 												<td><span className="fw-normal">{post.author}</span></td>
 												<td>{new Date(post.createdAt).toLocaleString()}</td>
 												<td>
@@ -206,7 +206,7 @@ function AdminPost() {
 									<button
 										className="page-link"
 										onClick={onClickNext}
-										disabled={currentPage === Math.round(postList.length / postsPerPage)}
+										disabled={currentPage > Math.floor(postList.length / postsPerPage)}
 									>
 										Next
 									</button>

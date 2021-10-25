@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import './home.scss'
 import axios from 'axios'
 import AuthContext from '../../../context/authentication/authContext'
-import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
+import { errorNotification } from '../../../utils/notification/ToastNotification'
+import MDEditor from '@uiw/react-md-editor'
+
+
 function Home() {
     const authContext = useContext(AuthContext)
     const [allPost, setAllPost] = useState([])
@@ -21,71 +24,21 @@ function Home() {
         registerConfirm()
     }, [])
 
-
-
-    // window.onload = function () {
-    //     const exampleModal = document.getElementById('exampleModal')
-    //     exampleModal.addEventListener('show.bs.modal', function (event) {
-    //         // Button that triggered the modal
-    //         let button = event.relatedTarget
-    //         // Extract info from data-bs-* attributes
-    //         let recipient = button.getAttribute('data-bs-whatever')
-    //         // If necessary, you could initiate an AJAX request here
-    //         // and then do the updating in a callback.
-    //         //
-    //         // Update the modal's content.
-    //         let modalTitle = exampleModal.querySelector('.modal-title')
-    //         let modalBody = exampleModal.querySelector('.modal-body')
-    //         let modalBy = exampleModal.querySelector('.by')
-    //         let modalDate = exampleModal.querySelector('.date')
-
-
-    //         modalTitle.textContent = allPost[recipient].title
-    //         modalBody.textContent = allPost[recipient].content
-    //         modalBy.textContent = "By: " + allPost[recipient].infor
-    //         modalDate.textContent = allPost[recipient].date
-
-
-    //     })
-    // }
-    const [allPost1, setAllPost1] = useState({})
+    const [postDetail, setPostDetail] = useState({})
     const onClickPost = async (id) => {
-        console.log(id)
         try {
             const res = await axios.get(`/api/post/user/${id}`)
             if (res) {
-                setAllPost1(res.data)
-
+                setPostDetail(res.data)
             }
         } catch (err) {
             errorNotification(err.response.message)
         }
     }
-    // let allPost = [
-    //     {
-    //         id: "2",
-    //         title: "âsasas",
-    //         content: "sđsdsd",
-    //         infor: "ưerwerwer",
-    //         date: "3434",
-    //         chitiet: "may la ai vay"
-    //     },
-    //     {
-    //         id: "1",
-    //         title: "sdsdsdsd",
-    //         content: "sđssdsdsdsdsddsd",
-    //         infor: "ưerwersdsdsdsdwer",
-    //         date: "3434",
-    //         chitiet: "tao la long"
-    //     },
-    // ]
-
-
-
 
     return (
         <div className="background__color">
-            <div className="container  vh-100">
+            <div className="container min-vh-100">
                 <div className="row">
 
                     <div className="col-lg-5 home__left">
@@ -97,27 +50,31 @@ function Home() {
                             <p className=" home__sub-title text-dark">
                                 An Automatic Code Grading System
                             </p>
-
                             {
                                 authContext.isAuthenticated ? null
-                                    : <Link to="/signup" class="btn-flip" data-back="Signup" data-front="Let's challenge"></Link>
+                                    : <Link to="/signup" className="btn-flip" data-back="Signup" data-front="Let's challenge"></Link>
                             }
                         </div>
 
                     </div>
                     <div className="col-lg-7">
                         <div className="home__posts" >
-                            {allPost && allPost.map((iteam, index) => {
+                            {allPost && allPost.map((post) => {
                                 return (
-                                    <div className="home__post" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever={iteam.id} onClick={() => { onClickPost(iteam.id) }} >
-                                        <h5 className="home__post--title" >{iteam.title}</h5>
+                                    <div className="home__post shadow" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#exampleModal" 
+                                        data-bs-whatever={post.id} onClick={() => { onClickPost(post.id) }} 
+                                        key={post.id}
+                                    >
+                                        <h5 className="home__post--title" >{post.title}</h5>
                                         <p className="home__post--content" >
-                                            {iteam.content}
+                                            {<MDEditor.Markdown source={post.content.length ? `${post.content.slice(0,50)} ...` : post.content}/> }
                                         </p>
                                         <div className="home__post--infor">
                                             <div>
-                                                <p>By: {iteam.author}</p>
-                                                <p>{iteam.createdAt}</p>
+                                                <p>By: {post.author}</p>
+                                                <p>{new Date(post.createdAt).toLocaleString()}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -126,24 +83,24 @@ function Home() {
                         </div>
 
                     </div>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" >
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">{allPost1 ? allPost1.title : ""}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-lg" >
+                            <div className="modal-content">
+                                <div className="modal-header ">
+                                    <h5 className="modal-title" id="exampleModalLabel">{postDetail ? postDetail.title : ""}</h5>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body modal-body-height">
-                                    {allPost1 ? allPost1.content : ""}
+                                <div className="modal-body modal-body-height">
+                                    {postDetail ? <MDEditor.Markdown source={ postDetail.content} /> : ""}
                                 </div>
                                 <div className="post-infor">
                                     <div>
-                                        <p class="by">{allPost1 ? allPost1.author : ""}</p>
-                                        <p class="date">{allPost1 ? allPost1.createdAt : ""}</p>
+                                        <p className="by">By: {postDetail ? postDetail.author : ""}</p>
+                                        <p className="date">{postDetail ? new Date(postDetail.createdAt).toLocaleString() : ""}</p>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

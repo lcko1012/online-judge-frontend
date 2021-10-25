@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import MDEditor, { title } from '@uiw/react-md-editor'
+import MDEditor from '@uiw/react-md-editor'
 import axios from 'axios';
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification';
 import { isEmpty } from '../../../utils/validation/Validation';
+import { useHistory } from 'react-router';
 
 function AdminPostCreating() {
+    const history = useHistory()
     const [value, setValue] = useState("**Hello!!!**");
     const [postData, setPostData] = useState({
         title: "",
@@ -21,6 +23,7 @@ function AdminPostCreating() {
                 visibleMode: postData.visibleMode
             })
             successNotification(res.data.message)
+            history.push("/admin/post")
         } catch (error) {
             errorNotification(error.response.data.message)
         }
