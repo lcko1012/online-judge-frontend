@@ -5,11 +5,16 @@ import { isEmail, isEmpty, isLength, isMatch } from '../../../utils/validation/V
 import AuthContext from '../../../context/authentication/authContext'
 
 
+const ACTIONS = {
+    ON_CHANGE: 'on-change',
+    RESET_PASSWORD_FORM: 'reset-password-form'
+}
+
 function InforReducer(state, action) {
   switch (action.type) {
-    case 'ON_CHANGE':
+    case ACTIONS.ON_CHANGE:
         return {...state, [action.payload.name]: action.payload.value}
-    case 'RESET_PASSWORD_FORM':
+    case ACTIONS.RESET_PASSWORD_FORM:
         return {...state, password: "", matchedPassword: "", oldPassword: ""}
     default:
       return state
@@ -47,7 +52,7 @@ export function Editprofile() {
 
             if(res) {
                 successNotification(res.data.message)
-                dispatch({type: "RESET_PASSWORD_FORM"})
+                dispatch({type: ACTIONS.RESET_PASSWORD_FORM})
             }
         } catch (error) {
             errorNotification(error.response.data.message)
@@ -81,7 +86,7 @@ export function Editprofile() {
     }
 
     const onChangeField = (event) => {
-        dispatch({ type: "ON_CHANGE", payload: {
+        dispatch({ type: ACTIONS.ON_CHANGE, payload: {
             name: event.target.name,
             value: event.target.value 
         }});
