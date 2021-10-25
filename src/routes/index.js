@@ -13,6 +13,8 @@ import AdminPost from '../admin/body/post/AdminPost'
 import AdminPostDetail from '../admin/body/post/AdminPostDetail'
 import AdminLayout from '../layouts/AdminLayout'
 import _403 from '../utils/page/_403'
+import ResetPassword from '../users/body/authentication/ResetPassword'
+import AdminPostCreating from '../admin/body/post/AdminPostCreating'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -27,10 +29,20 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
     )
 }
 
+const checkRole = (role) => {
+    return role === 'Admin' || role === 'Teacher' ? true : false
+}
+
+
 export default () => {
     const authContext = useContext(AuthContext)
     const {isAuthenticated, user} = authContext
-    const rule = user ? user.rule :  "Regular User"
+    const role = user ? user.role :  "Regular User"
+
+    const checkRole = () => {
+        return role === 'Admin' || role === 'Teacher' ? true : false
+    }
+
     return (
         <Switch>            
             <AppRoute exact path="/"  component={Home} layout={UserLayout}/>
@@ -38,11 +50,13 @@ export default () => {
             <AppRoute exact path="/signin" component={isAuthenticated ? Home : SignIn} layout={UserLayout} />
             <AppRoute exact path="/profile" component={user ? Profile : SignIn} layout={UserLayout} />
             <AppRoute exact path="/forgot_password" component={ForgotPassword} layout={UserLayout} />
+            <AppRoute exact path="/reset_password/:accessToken" component={ResetPassword} layout={UserLayout} />
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
 
-            <AppRoute exact path="/admin/home" component={rule ? _403 : AdminHome} layout={AdminLayout} />
-            <AppRoute exact path="/admin/post" component={rule ? _403 : AdminPost} layout={AdminLayout} />
-            <AppRoute exact path="/admin/:id/edit" component={rule ? _403 : AdminPostDetail} layout={AdminLayout} />
+            <AppRoute exact path="/admin/home" component={checkRole() ? AdminHome: _403 } layout={AdminLayout} />
+            <AppRoute exact path="/admin/post" component={checkRole() ? AdminPost : _403} layout={AdminLayout} />
+            <AppRoute exact path="/admin/post/new" component={checkRole() ? AdminPostCreating : _403} layout={AdminLayout} />
+            <AppRoute exact path="/admin/post/:id/detail" component={checkRole() ? AdminPostDetail : _403} layout={AdminLayout} />
         </Switch>
     )
 }
