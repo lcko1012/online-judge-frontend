@@ -21,7 +21,7 @@ function AdminHeader() {
                             <a className="nav-link" href="#">User</a>
                         </li>
                         <li className="nav-item me-3">
-                            <a className="nav-link" href="#">Group</a>
+                            <Link className="nav-link" to="/admin/group">Group</Link>
                         </li>
                         <li className="nav-item me-3">
                             <a className="nav-link" href="#">Problem</a>
