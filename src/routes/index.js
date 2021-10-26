@@ -15,6 +15,8 @@ import AdminLayout from '../layouts/AdminLayout'
 import _403 from '../utils/page/_403'
 import ResetPassword from '../users/body/authentication/ResetPassword'
 import AdminPostCreating from '../admin/body/post/AdminPostCreating'
+import AdminGroup from '../admin/body/group/AdminGroup'
+import AdminGroupDetail from '../admin/body/group/AdminGroupDetail'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -52,6 +54,11 @@ export default () => {
             <AppRoute exact path="/admin/post" component={checkRole() ? AdminPost : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/post/new" component={checkRole() ? AdminPostCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/post/:id/detail" component={checkRole() ? AdminPostDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+
+            <AppRoute exact path="/admin/group" component={checkRole() ? AdminGroup : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/group/:id/detail" component={checkRole() ? AdminGroupDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+
+
         </Switch>
     )
 }
