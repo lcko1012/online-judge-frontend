@@ -92,7 +92,7 @@ function ResetPassword() {
                     </div>
 
                     <div className="d-grid">
-                      <button type="submit" className="btn btn-dark">Recover password</button>
+                      <button type="submit" className="btn btn-dark">Reset password</button>
                     </div>
                   </form>
                 </div>

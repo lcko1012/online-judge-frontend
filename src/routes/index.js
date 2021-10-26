@@ -29,11 +29,6 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
     )
 }
 
-const checkRole = (role) => {
-    return role === 'Admin' || role === 'Teacher' ? true : false
-}
-
-
 export default () => {
     const authContext = useContext(AuthContext)
     const {isAuthenticated, user} = authContext
@@ -53,10 +48,10 @@ export default () => {
             <AppRoute exact path="/reset_password/:accessToken" component={ResetPassword} layout={UserLayout} />
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
 
-            <AppRoute exact path="/admin/home" component={checkRole() ? AdminHome: _403 } layout={AdminLayout} />
-            <AppRoute exact path="/admin/post" component={checkRole() ? AdminPost : _403} layout={AdminLayout} />
-            <AppRoute exact path="/admin/post/new" component={checkRole() ? AdminPostCreating : _403} layout={AdminLayout} />
-            <AppRoute exact path="/admin/post/:id/detail" component={checkRole() ? AdminPostDetail : _403} layout={AdminLayout} />
+            <AppRoute exact path="/admin/home" component={checkRole() ? AdminHome: _403 } layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/post" component={checkRole() ? AdminPost : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/post/new" component={checkRole() ? AdminPostCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/post/:id/detail" component={checkRole() ? AdminPostDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
         </Switch>
     )
 }
