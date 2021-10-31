@@ -57,7 +57,7 @@ export default () => {
 
             <AppRoute exact path="/admin/group" component={checkRole() ? AdminGroup : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/group/:id/detail" component={checkRole() ? AdminGroupDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
-
+            <AppRoute exact path="/admin/groupTest" component={AdminGroupDetail} layout={AdminLayout}/>
 
         </Switch>
     )
