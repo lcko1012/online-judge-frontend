@@ -1,29 +1,14 @@
-.adminGroupDetail {
-    margin: 10px 10px;
-}
 
-.groupInfo {
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0,0.75); 
-    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0,0.75);
-    padding: 20px;
-    margin: 50px 100px;
-}
 
-.groupId_CreatedContainer {
+.group__row {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.groupID {
-    display: flex;
-    align-items: center;
+.group__group-id-label {
+    flex-basis: 12%;
 }
 
-.groupLabelID {
-    margin-right: 25px;
-    font-weight: 400;
-    padding-left: 10px;
-}
 
 .groupInputID {
     border-radius: 10px;
@@ -68,32 +53,22 @@
     padding-left: 10px;
 }
 
-.groupDesTextarea {
-    margin-left: 15px;
+.group__description-text-area {
     border-radius: 10px;
-    width: 600px;
+    min-height: 80px;
+    padding: 10px;
 }
 
-.members {
+.group__members {
     margin: 20px 0px;
     display: flex;
     flex-direction: column;
+
+    .search-members-span {
+        width: 200px;
+    }
 }
 
-.membersLabel {
-    margin-left: 10px;
-    margin-bottom: 0px;
-    font-weight: 400;
-}
-
-// .table-responsive {
-//     margin: 0px 110px;
-//     width: 80%;
-// }
-
-.input-group {
-    margin-top: -30px;
-}
 
 .buttonAction {
     margin-top: 30px;
@@ -103,4 +78,12 @@
 
 .btnSave {
     margin-left: 10px;
+}
+
+.group__col-1 {
+    flex-basis: 10%;
+}
+
+.group-creating__user-table {
+    min-height: 200px;
 }

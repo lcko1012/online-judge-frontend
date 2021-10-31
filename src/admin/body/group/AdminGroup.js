@@ -57,10 +57,6 @@ function AdminGroup() {
     const { groupList, currentPage, searchName, searchUsername } = groupState
     const [groupsPerPage, setgroupsPerPage] = useState(10)
 
-    const checkRole = () => {
-        return user.role === 'Admin' ? 'admin' : 'teacher'
-    }
-
     useEffect(() => {
         const getgroupList = async () => {
             try {
@@ -101,7 +97,7 @@ function AdminGroup() {
     const onSubmitSearch = async (e) => {
         e.preventDefault()
         if (e.keyCode === 13) {
-            if (isEmpty(searchName) && isEmpty(searchUsername)) return errorNotification("Please fill in field")
+            if (isEmpty(searchName) && isEmpty(searchUsername)) return errorNotification("Please fill in search field")
             try {
                 const res = await axios.get("/api/group", {
                     params: {
@@ -229,7 +225,11 @@ function AdminGroup() {
 
                 <div className="d-flex justify-content-end mt-4">
                     <Link to="/admin/group/new">
-                        <button className="btn btn-dark"><i className="fal fa-plus mr-2"></i> Add Group</button>
+                        <button 
+                            className="btn btn-dark"
+                        >
+                            <i className="fal fa-plus mr-2"></i> Add Group
+                        </button>
                     </Link>
                 </div>
             </div>

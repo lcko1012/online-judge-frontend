@@ -19,14 +19,16 @@ const AuthState = (props) => {
     const loadUser = async () => {
         try {
             const res = await axios.get('/api/user/whoami')
-
-            dispatch({
-                type: GET_USER,
-                payload: res.data
-            })
-
+            if(res) {
+                dispatch({
+                    type: GET_USER,
+                    payload: res.data
+                })
+            }
         } catch (err) {
-            console.log(err.response.data.message)
+            dispatch({
+                type: LOGOUT
+            })
         }
     }
 
