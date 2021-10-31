@@ -64,7 +64,6 @@ function AdminPostDetail() {
     const deletePost = async () => {
         try {
             const res = await axios.delete(`/api/post/${checkRole()}/${id}`)
-            
             successNotification(res.data.message)
             history.push("/admin/post")
         } catch (error) {

@@ -175,7 +175,7 @@ function AdminPost() {
 												</td>
 												<td>
 													<Link to={`/admin/post/${post.id}/detail`}>
-														<button className="btn btn-light btn-xs">
+														<button className="btn btn-dark btn-xs">
 															Detail
 														</button>
 													</Link>

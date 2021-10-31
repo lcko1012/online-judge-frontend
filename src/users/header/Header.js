@@ -9,7 +9,7 @@ function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
       <div className="container-fluid container">
-        <img className="header__logo-img" src="http://1509.ddns.net:8080/static/media/Logo_dhbkdn.bccf89bd.jpg" />
+        <img className="header__logo-img" src="https://res.cloudinary.com/dgp6k8yir/image/upload/v1635686282/avatar/ezhl0mkkxn7oawpgdz9j.png"/>
         <Link className="navbar-brand" to="/">OnlineJudge</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>

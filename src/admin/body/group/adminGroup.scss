@@ -1,0 +1,89 @@
+
+
+.group__row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.group__group-id-label {
+    flex-basis: 12%;
+}
+
+
+.groupInputID {
+    border-radius: 10px;
+    margin-left: 20px;
+    width: 300px;
+}
+
+.groupCreatedInput {
+    margin-left: 20px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.groupCreatedLabel {
+    font-weight: 400;
+}
+
+.groupName {
+    margin: 20px 10px;
+}
+
+.groupNameLabel {
+    margin-right: 20px;
+    font-weight: 400;
+}
+
+.groupNameInput {
+    border-radius: 10px;
+    height: 40px;
+    width: 600px;
+}
+
+.groupDes {
+    margin: 20px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.groupDesLabel {
+    font-weight: 400;
+    margin-right: 15px;
+    padding-left: 10px;
+}
+
+.group__description-text-area {
+    border-radius: 10px;
+    min-height: 80px;
+    padding: 10px;
+}
+
+.group__members {
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: column;
+
+    .search-members-span {
+        width: 200px;
+    }
+}
+
+
+.buttonAction {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btnSave {
+    margin-left: 10px;
+}
+
+.group__col-1 {
+    flex-basis: 10%;
+}
+
+.group-creating__user-table {
+    min-height: 200px;
+}

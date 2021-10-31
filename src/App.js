@@ -22,9 +22,7 @@ function App() {
             cookiesService.setToken(res.data.accessToken)
             authContext.login()
           }
-          else {
-            authContext.logout()
-          }
+         
         }
         getAccessToken()
       }

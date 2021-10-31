@@ -12,6 +12,7 @@ function AdminPostCreating() {
         title: "",
         visibleMode: "private"
     })
+    
     const savePost = async () => {
         if(isEmpty(postData.title) || isEmpty(value) || isEmpty(postData.visibleMode)) {
             return errorNotification("Please fill in all fields")
