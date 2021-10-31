@@ -56,6 +56,7 @@ export default () => {
             <AppRoute exact path="/admin/post/:id/detail" component={checkRole() ? AdminPostDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
 
             <AppRoute exact path="/admin/group" component={checkRole() ? AdminGroup : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/group/new" component={checkRole() ? AdminGroup : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/group/:id/detail" component={checkRole() ? AdminGroupDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
 
 
