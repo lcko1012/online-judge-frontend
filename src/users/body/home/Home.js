@@ -37,46 +37,28 @@ function Home() {
     }
 
     return (
-        <div className="background__color">
-            <div className="container min-vh-100">
-                <div className="row">
-
-                    <div className="col-lg-5 home__left">
-                        <div className="home__title-container">
-                            <h5 className="text-dark home__title">
-                                Welcome to OnlineJudge
-                            </h5>
-
-                            <p className=" home__sub-title text-dark">
-                                An Automatic Code Grading System
-                            </p>
-                            {
-                                authContext.isAuthenticated ? null
-                                    : <Link to="/signup" className="btn-flip" data-back="Signup" data-front="Let's challenge"></Link>
-                            }
-                        </div>
-
-                    </div>
-                    <div className="col-lg-7">
+        <div className="background__color min-vh-100">
+            <div className="container pt-5 pb-2">
+                    <div>
                         <div className="home__posts" >
                             {allPost && allPost.map((post) => {
                                 return (
-                                    <div className="home__post shadow" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#exampleModal" 
-                                        data-bs-whatever={post.id} onClick={() => { onClickPost(post.id) }} 
+                                    <div className="home__post"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        data-bs-whatever={post.id} onClick={() => { onClickPost(post.id) }}
                                         key={post.id}
                                     >
                                         <h5 className="home__post--title" >{post.title}</h5>
-                                        <p className="home__post--content" >
-                                            {<MDEditor.Markdown source={post.content.length ? `${post.content.slice(0,50)} ...` : post.content}/> }
-                                        </p>
-                                        <div className="home__post--infor">
-                                            <div>
-                                                <p>By: {post.author}</p>
-                                                <p>{new Date(post.createdAt).toLocaleString()}</p>
+                                            <p className="home__post--content" >
+                                                {<MDEditor.Markdown source={post.content.length > 250 ? `${post.content.slice(0, 250)} ...` : post.content} />}
+                                            </p>
+                                            <div className="home__post--infor">
+                                                <div>
+                                                    <p>By: {post.author}</p>
+                                                    <p>{new Date(post.createdAt).toLocaleString()}</p>
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
                                 )
                             })}
@@ -91,7 +73,7 @@ function Home() {
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div className="modal-body modal-body-height">
-                                    {postDetail ? <MDEditor.Markdown source={ postDetail.content} /> : ""}
+                                    {postDetail ? <MDEditor.Markdown source={postDetail.content} /> : ""}
                                 </div>
                                 <div className="post-infor">
                                     <div>
@@ -107,8 +89,6 @@ function Home() {
                     </div>
 
                 </div>
-
-            </div>
         </div>
 
     )
