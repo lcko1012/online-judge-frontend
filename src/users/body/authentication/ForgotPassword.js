@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
 
 function ForgotPassword() {
-	const [dataForm, setDataForm] = useState({email: ""})
-	const {email} = dataForm
+	const [dataForm, setDataForm] = useState({email: "", username: ""})
+	const {email, username} = dataForm
 
 	const submitForm = async (e) => {
 		e.preventDefault()
 		try {
 			const res = await axios.post("/api/auth/forgot", {
-				email
+				email,
+				username
 			})
 			successNotification(res.data.message)
 		} catch (error) {
@@ -38,6 +39,25 @@ function ForgotPassword() {
 									</div>
 
 									<form onSubmit={submitForm}>
+									<div className="form-group mb-4">
+											<label>Your Username</label>
+											<div className="input-group">
+												<span className="input-group-text" id="basic-addon1">
+													<i className="fas fa-user"></i>
+													<svg className="icon icon-xs text-gray-600" viewBox="0 0 20 20"></svg>
+												</span>
+												<input
+													type="text"
+													className="form-control"
+													placeholder="naruto"
+													required
+													name="username"
+													value={username}
+													onChange={onChangeInput}
+												/>
+											</div>
+										</div>
+
 										<div className="form-group mb-4">
 											<label>Your Email</label>
 											<div className="input-group">

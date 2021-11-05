@@ -100,7 +100,7 @@ function AdminGroupDetail() {
                             <input
                                 type="text"
                                 className="form-control"
-                                value={new Date(groupData.createdAt).toLocaleDateString()}
+                                value={new Date(groupData.createdAt).toUTCString().slice(4,16)}
                                 disabled
                             />
                         </div>
@@ -115,7 +115,7 @@ function AdminGroupDetail() {
                                 className="form-control"
                                 value={groupData.name}
                                 name="name"
-                                onChange={checkOwner() ? onChangeInput : null}
+                                onChange={checkOwner() ||checkRole() ? onChangeInput : null}
                             />
                         </div>
                     </div>
@@ -167,7 +167,7 @@ function AdminGroupDetail() {
                                     <td>1</td>
                                     <td>{user.username}</td>
                                     <td>{user.group_user.type}</td>
-                                    <td>31 Oct 2021</td>
+                                    <td>{new Date(user.group_user.createdAt).toUTCString().slice(4,16)}</td>
                                     </tr>
                                 )}
                             </tbody>

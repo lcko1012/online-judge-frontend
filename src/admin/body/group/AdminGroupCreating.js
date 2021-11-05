@@ -16,6 +16,7 @@ function AdminGroupCreating() {
         createdAt: new Date().toUTCString().slice(4,16),
     })
 
+
     const authContext = useContext(AuthContext)
     const { user } = authContext
 
@@ -65,7 +66,7 @@ function AdminGroupCreating() {
                     </div>
 
                     <div className="group__row mt-3">
-                        <label className="group__group-id-label">Group Name</label>
+                        <label className="group__group-id-label">Group Name<span className="text-danger">*</span></label>
                         <div className="col-lg-6">
                             <input
                                 type="text"
@@ -108,8 +109,6 @@ function AdminGroupCreating() {
                         </div>
                        
                     </div>
-                 
-                        
                         <div className="mt-3 text-end">
                                 <button className="btn btn-outline-dark me-3" onClick={saveGroup}>Save</button>
                                
