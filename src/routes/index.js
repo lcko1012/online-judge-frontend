@@ -18,6 +18,9 @@ import AdminPostCreating from '../admin/body/post/AdminPostCreating'
 import AdminGroup from '../admin/body/group/AdminGroup'
 import AdminGroupDetail from '../admin/body/group/AdminGroupDetail'
 import AdminGroupCreating from '../admin/body/group/AdminGroupCreating'
+import AdminProblem from '../admin/body/problem/AdminProblem'
+import AdminProblemCreating from '../admin/body/problem/AdminProblemCreating'
+import AdminProblemDetail from '../admin/body/problem/AdminProblemDetail'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -59,7 +62,10 @@ export default () => {
             <AppRoute exact path="/admin/group" component={checkRole() ? AdminGroup : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/group/new" component={checkRole() ? AdminGroupCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/group/:id/detail" component={checkRole() ? AdminGroupDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
-            <AppRoute exact path="/admin/groupTest" component={AdminGroupDetail} layout={AdminLayout}/>
+
+            <AppRoute exact path="/admin/problem" component={checkRole() ? AdminProblem : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/problem/new" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/problem/:id/detail" component={checkRole() ? AdminProblemDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
 
         </Switch>
     )
