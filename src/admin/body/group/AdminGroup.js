@@ -171,7 +171,7 @@ function AdminGroup() {
                             </tr>
                         </thead>
                         <tbody>
-                            {groupList &&
+                            {groupList.length > 0 ?
                                 <>
                                     {
                                         currentGroups.map((group, index) =>
@@ -190,7 +190,7 @@ function AdminGroup() {
                                             </tr>
                                         )
                                     }
-                                </>
+                                </> : null
                             }
                         </tbody>
                     </table>
