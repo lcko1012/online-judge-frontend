@@ -1,0 +1,15 @@
+.problem__row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.problem__col-lg-1 {
+    flex: 0 0 10%;
+    max-width: 10%;
+}
+
+.problem__form-input-custom {
+    display: inline !important;
+    width: auto !important;
+}
+

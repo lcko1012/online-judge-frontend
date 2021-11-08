@@ -65,7 +65,7 @@ export default () => {
 
             <AppRoute exact path="/admin/problem" component={checkRole() ? AdminProblem : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/problem/new" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
-            <AppRoute exact path="/admin/problem/:id/detail" component={checkRole() ? AdminProblemDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            <AppRoute exact path="/admin/problem/:id/detail" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
 
         </Switch>
     )

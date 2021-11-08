@@ -11,12 +11,12 @@ const ACTIONS = {
     ON_CHANGE: 'on-change',
     NEXT_PAGE: 'next-page',
     PREV_PAGE: 'prev-page',
-    GET_PROBLEM_LIST: 'get-group-list',
+    GET_PROBLEM_LIST: 'get-problem-list',
     RESET_PROBLEM: 'reset-problem',
     SUBMIT_SEARCH: 'submit-search'
 }
 
-function ProblemRecucer(state, action) {
+function ProblemsRedecer(state, action) {
     switch(action.type) {
         case ACTIONS.ON_CHANGE:
             return { ...state, [action.payload.name]: action.payload.value }
@@ -53,7 +53,7 @@ function AdminProblem() {
         searchProb: ''
     }
 
-    const [problemsState, dispatch] = useReducer(ProblemRecucer, initialProblems)
+    const [problemsState, dispatch] = useReducer(ProblemsRedecer, initialProblems)
     const {problemList, currentPage, searchProb} = problemsState
     const [problemsPerPage, setProblemsPerPage] = useState(10)
 
