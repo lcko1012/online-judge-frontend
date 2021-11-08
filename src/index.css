@@ -23,3 +23,7 @@ a {
 .d-flex-basis-100 {
   flex-basis: 100%;
 }
+
+.width-fit-content {
+  width: fit-content;
+}

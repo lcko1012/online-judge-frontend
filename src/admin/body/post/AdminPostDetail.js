@@ -79,6 +79,7 @@ function AdminPostDetail() {
     const onChangeCheckBox = e => {
         setPostData({ ...postData, [e.target.name]: e.target.checked ? 'public' : 'private' })
     }
+    
     return (
         <div className="h-100">
             <div className="container mt-5 mb-5">
