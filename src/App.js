@@ -6,8 +6,7 @@ import AuthContext from './context/authentication/authContext'
 import CookiesService from './services/CookiesService';
  
 import "./index.css"
-import axios from 'axios';
-
+import { axiosInstance } from './services/config';
 
 
 function App() {
@@ -17,12 +16,16 @@ function App() {
   useEffect(() => {
       if(cookiesService.getToken()) {
         const getAccessToken = async () => {
-          const res = await axios.get("/api/auth/refresh_token")
-          if(res) {
-            cookiesService.setToken(res.data.accessToken)
-            authContext.login()
-          }
-         
+         try {
+            const res = await axiosInstance.get("/api/auth/refresh_token")
+            if(res) {
+              cookiesService.setToken(res.data.accessToken)
+              console.log(res.data)
+              authContext.login()
+            }
+         } catch (error) {
+            console.log(error.response.data)
+         }
         }
         getAccessToken()
       }

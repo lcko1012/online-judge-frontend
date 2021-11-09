@@ -1,10 +1,10 @@
-import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import { useHistory, useParams } from 'react-router';
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification';
 import AuthContext from '../../../context/authentication/authContext'
 import { isEmpty } from '../../../utils/validation/Validation';
+import { axiosInstance } from '../../../services/config';
 
 
 
@@ -28,7 +28,7 @@ function AdminPostDetail() {
     useEffect(() => {
         const getPost = async () => {
             try {
-                const res = await axios.get(`/api/post/${checkRole()}/${id}`)
+                const res = await axiosInstance.get(`/api/post/${checkRole()}/${id}`)
                 setValue(res.data.content)
                 setPostData({
                     author: res.data.author,
@@ -48,7 +48,7 @@ function AdminPostDetail() {
             return errorNotification("Please fill in all fields")
         }
         try {
-            const res = await axios.put(`/api/post/${checkRole()}/${id}`, {
+            const res = await axiosInstance.put(`/api/post/${checkRole()}/${id}`, {
                 title: postData.title,
                 content: value,
                 visibleMode: postData.visibleMode
@@ -63,7 +63,7 @@ function AdminPostDetail() {
 
     const deletePost = async () => {
         try {
-            const res = await axios.delete(`/api/post/${checkRole()}/${id}`)
+            const res = await axiosInstance.delete(`/api/post/${checkRole()}/${id}`)
             successNotification(res.data.message)
             history.push("/admin/post")
         } catch (error) {

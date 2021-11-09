@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Editprofile } from './EditProfile'
 import './Profile.scss'
 import AuthContext from '../../../context/authentication/authContext'
-import axios from 'axios'
 import { isImgFormat, isImgSize } from '../../../utils/validation/Validation'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
+import { axiosInstance } from '../../../services/config'
 
 function Profile() {
     const authContext = useContext(AuthContext)
@@ -32,7 +32,7 @@ function Profile() {
             var formImage = new FormData()
             formImage.append('file', file)
 
-            const res = await axios.post("/api/upload_image", formImage)
+            const res = await axiosInstance.post("/api/upload_image", formImage)
 
             if (res) {
                 setAvatarUrl(res.data.url)
@@ -45,7 +45,7 @@ function Profile() {
 
     const updateAvatar = async () => {
         try {
-            const res = await axios.put("/api/user/update/avatar", {
+            const res = await axiosInstance.put("/api/user/update/avatar", {
                 avatarUrl: avatarUrl
             })
             successNotification(res.data.message)

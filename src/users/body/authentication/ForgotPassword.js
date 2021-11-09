@@ -1,6 +1,6 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { axiosInstance } from '../../../services/config'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
 
 function ForgotPassword() {
@@ -10,7 +10,7 @@ function ForgotPassword() {
 	const submitForm = async (e) => {
 		e.preventDefault()
 		try {
-			const res = await axios.post("/api/auth/forgot", {
+			const res = await axiosInstance.post("/api/auth/forgot", {
 				email,
 				username
 			})

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
 import { useHistory, useParams } from 'react-router'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification';
 import AuthContext from '../../../context/authentication/authContext'
 import './adminGroup.scss'
 import { isEmpty } from '../../../utils/validation/Validation';
+import { axiosInstance } from '../../../services/config';
 
 function AdminGroupDetail() {
     const { id } = useParams()
@@ -29,7 +29,7 @@ function AdminGroupDetail() {
     useEffect(() => {
         const getGroup = async () => {
             try {
-                const res = await axios.get(`/api/group/${id}`)
+                const res = await axiosInstance.get(`/api/group/${id}`)
                 setGroupData(res.data)
             } catch (error) {
                 console.log(error)
@@ -38,7 +38,7 @@ function AdminGroupDetail() {
 
         const getUserList = async () => {
             try {
-                const res = await axios.get(`/api/group/${id}/get_users`)
+                const res = await axiosInstance.get(`/api/group/${id}/get_users`)
                 setUserList(res.data.users)
             } catch (error) {
                 
@@ -50,7 +50,7 @@ function AdminGroupDetail() {
 
     const deleteGroup = async () => {
         try {
-            const res = await axios.delete(`/api/group/${checkRole()}/${id}`)
+            const res = await axiosInstance.delete(`/api/group/${checkRole()}/${id}`)
             successNotification(res.data.message)
             history.push("/admin/group")
         } catch (error) {
@@ -61,7 +61,7 @@ function AdminGroupDetail() {
     const saveGroup = async () => {
         if(isEmpty(groupData.name)) return errorNotification("Please fill in the name field")
         try {
-            const res = await axios.put(`/api/group/${checkRole()}/${id}`, {
+            const res = await axiosInstance.put(`/api/group/${checkRole()}/${id}`, {
                 name: groupData.name,
                 description: groupData.description
             })

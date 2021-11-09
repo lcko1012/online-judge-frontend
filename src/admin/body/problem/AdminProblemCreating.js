@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext, useReducer } from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import axios from 'axios';
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
 import { useHistory, useParams } from 'react-router';
 import AuthContext from '../../../context/authentication/authContext'
+import { axiosInstance } from '../../../services/config';
 
 const ACTIONS = {
     ON_CHANGE: 'on-change',
@@ -102,7 +102,7 @@ function AdminProblemCreating() {
 
     useEffect(() => {
         const getTagList = async () => {
-            const res = await axios.get('/api/tag');
+            const res = await axiosInstance.get('/api/tag');
             dispatch({type: ACTIONS.GET_TAG_LIST, payload: res.data})
         }
 
@@ -113,7 +113,7 @@ function AdminProblemCreating() {
         if (id) {
             const getProblem = async () => {
                 try {
-                    const res = await axios.get(`/api/problem/${checkRole()}/${id}`);
+                    const res = await axiosInstance.get(`/api/problem/${checkRole()}/${id}`);
                     console.log(res.data);
                     setStatement(res.data.statement);
                     dispatch({type: ACTIONS.GET_PROBLEM, payload: res.data})
@@ -131,7 +131,7 @@ function AdminProblemCreating() {
             try {
                 const formData = new FormData()
                 formData.append("zipFile", zipFile)
-                const res = await axios.post('/api/problem/validate_zip', formData)
+                const res = await axiosInstance.post('/api/problem/validate_zip', formData)
                 successNotification(res.data.message)
             } catch (error) {
                 error.response.data && errorNotification(error.response.data.message)
@@ -230,8 +230,8 @@ function AdminProblemCreating() {
                 }
             }
             const res =  id ? 
-            await axios.patch(`/api/problem/${checkRole()}/${id}`, problemRequest,config) :  
-            await axios.post('/api/problem', problemRequest,config)
+            await axiosInstance.patch(`/api/problem/${checkRole()}/${id}`, problemRequest,config) :  
+            await axiosInstance.post('/api/problem', problemRequest,config)
 
             successNotification(res.data.message)
         } catch (error) {
@@ -241,7 +241,7 @@ function AdminProblemCreating() {
 
     const deleteProblem = async () => {
         try {
-            const res = await axios.delete(`/api/problem/${checkRole()}/${id}`)
+            const res = await axiosInstance.delete(`/api/problem/${checkRole()}/${id}`)
             successNotification(res.data.message)
             history.push('/admin/problem')
         } catch (error) {

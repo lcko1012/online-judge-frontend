@@ -5,7 +5,7 @@ import AuthContext from '../../../context/authentication/authContext'
 import CookiesService from '../../../services/CookiesService'
 import { isEmpty, isLength } from '../../../utils/validation/Validation'
 import { errorNotification } from '../../../utils/notification/ToastNotification'
-import axios from 'axios'
+import { axiosInstance } from '../../../services/config'
 
 const initialState = {
   username: "",
@@ -32,7 +32,7 @@ function SignIn() {
     if (isLength(password)) return errorNotification("Password is greater than 6 and less than 32 characters")
 
     try {
-      const res = await axios.post("/api/auth/login", {
+      const res = await axiosInstance.post("/api/auth/login", {
         username: username,
         password: password
       })
