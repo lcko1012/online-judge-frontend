@@ -1,9 +1,9 @@
-import axios from 'axios'
 import React, { useReducer } from 'react'
 import {LOGOUT, LOGIN_SUCCESS, GET_USER} from "../types"
 import authReducer from './authReducer'
 import AuthContext from "./authContext";
 import CookiesService from '../../services/CookiesService';
+import { axiosInstance } from '../../services/config';
 
 
 const AuthState = (props) => {
@@ -18,7 +18,7 @@ const AuthState = (props) => {
 
     const loadUser = async () => {
         try {
-            const res = await axios.get('/api/user/whoami')
+            const res = await axiosInstance.get('/api/user/whoami')
             if(res) {
                 dispatch({
                     type: GET_USER,
@@ -40,7 +40,7 @@ const AuthState = (props) => {
     }
 
     const logout = async () => {
-        await axios.get('/api/auth/logout')
+        await axiosInstance.get('/api/auth/logout')
         dispatch({
             type: LOGOUT
         })

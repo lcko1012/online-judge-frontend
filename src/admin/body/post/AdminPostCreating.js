@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import axios from 'axios';
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification';
 import { isEmpty } from '../../../utils/validation/Validation';
 import { useHistory } from 'react-router';
+import { axiosInstance } from '../../../services/config';
 
 function AdminPostCreating() {
     const history = useHistory()
@@ -18,7 +18,7 @@ function AdminPostCreating() {
             return errorNotification("Please fill in all fields")
         }
         try {
-            const res = await axios.post("/api/post", {
+            const res = await axiosInstance.post("/api/post", {
                 title: postData.title,
                 content: value,
                 visibleMode: postData.visibleMode

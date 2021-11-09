@@ -2,10 +2,10 @@ import React, { useEffect, useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './AdminPost.scss'
 import AuthContext from '../../../context/authentication/authContext'
-import axios from 'axios'
 import { useContext } from 'react'
 import { errorNotification } from '../../../utils/notification/ToastNotification'
 import { isEmpty } from '../../../utils/validation/Validation'
+import { axiosInstance } from '../../../services/config'
 
 const ACTIONS = {
 	ON_CHANGE: 'on-change',
@@ -61,7 +61,7 @@ function AdminPost() {
 	useEffect(() => {
 		const getPostList = async () => {
 			try {
-				const res = await axios.get(`/api/post/${checkRole()}`);
+				const res = await axiosInstance.get(`/api/post/${checkRole()}`);
 				dispatch({type: ACTIONS.GET_POST_LIST, payload: res.data})
 			} catch (error) {
 				console.log(error)
@@ -97,7 +97,7 @@ function AdminPost() {
 		e.preventDefault()
 		if(isEmpty(searchText)) return errorNotification("Please fill in field") 
 		try {
-			const res = await axios.post("/api/post/search_title", {
+			const res = await axiosInstance.post("/api/post/search_title", {
 				searchText: searchText
 			})
 			dispatch({type: ACTIONS.SUBMIT_SEARCH, payload: res.data})
@@ -108,7 +108,7 @@ function AdminPost() {
 
 	const onClickReset = async () => {
 		try {
-			const res = await axios.get(`/api/post/${checkRole()}`)
+			const res = await axiosInstance.get(`/api/post/${checkRole()}`)
 			dispatch({type: ACTIONS.RESET_POST, payload: res.data})
 		} catch (error) {
 			console.log(error)

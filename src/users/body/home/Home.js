@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
 import './home.scss'
-import axios from 'axios'
 import AuthContext from '../../../context/authentication/authContext'
 import { errorNotification } from '../../../utils/notification/ToastNotification'
 import MDEditor from '@uiw/react-md-editor'
+import { axiosInstance } from '../../../services/config'
 
 
 function Home() {
@@ -13,7 +12,7 @@ function Home() {
     useEffect(() => {
         const registerConfirm = async () => {
             try {
-                const res = await axios.get("/api/post/user")
+                const res = await axiosInstance.get("/api/post/user")
                 if (res) {
                     setAllPost(res.data)
                 }
@@ -27,7 +26,7 @@ function Home() {
     const [postDetail, setPostDetail] = useState({})
     const onClickPost = async (id) => {
         try {
-            const res = await axios.get(`/api/post/user/${id}`)
+            const res = await axiosInstance.get(`/api/post/user/${id}`)
             if (res) {
                 setPostDetail(res.data)
             }

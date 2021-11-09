@@ -1,8 +1,8 @@
-import axios from 'axios'
 import React, {useReducer, useContext} from 'react'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
 import { isEmail, isEmpty, isLength, isMatch } from '../../../utils/validation/Validation'
 import AuthContext from '../../../context/authentication/authContext'
+import { axiosInstance } from '../../../services/config'
 
 
 const ACTIONS = {
@@ -44,7 +44,7 @@ export function Editprofile() {
             if(!isMatch(matchedPassword, password)) return errorNotification("Passwords do not match")
             
 
-            const res = await axios.put("/api/user/update/password", {
+            const res = await axiosInstance.put("/api/user/update/password", {
                 password: userInfor.password,
                 matchedPassword: userInfor.matchedPassword,
                 oldPassword: userInfor.oldPassword
@@ -69,7 +69,7 @@ export function Editprofile() {
             if(!email) return errorNotification("Please fill in email field")
             if(!isEmail(email)) return errorNotification("Please enter a valid email address!")
 
-            const res = await axios.put("/api/user/update/information", {
+            const res = await axiosInstance.put("/api/user/update/information", {
                 email: userInfor.email,
                 firstName: userInfor.firstName,
                 lastName: userInfor.lastName

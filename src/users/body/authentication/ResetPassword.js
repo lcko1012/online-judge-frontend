@@ -1,6 +1,6 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import { useParams } from 'react-router'
+import { axiosInstance } from '../../../services/config'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification'
 import { isEmpty, isLength, isMatch } from '../../../utils/validation/Validation'
 
@@ -21,7 +21,7 @@ function ResetPassword() {
     if(isLength(password) || isLength(matchedPassword)) return errorNotification("Password is greater than 6 and less than 32 characters")
 
     try {
-      const res = await axios.post("/api/auth/reset", {
+      const res = await axiosInstance.post("/api/auth/reset", {
         password,
         matchedPassword
       }, 

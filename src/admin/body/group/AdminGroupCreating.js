@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
 import { useHistory, useParams } from 'react-router'
 import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification';
 import AuthContext from '../../../context/authentication/authContext'
 import './adminGroup.scss'
 import { isEmpty } from '../../../utils/validation/Validation';
+import { axiosInstance } from '../../../services/config';
 
 function AdminGroupCreating() {
     const { id } = useParams()
@@ -23,7 +23,7 @@ function AdminGroupCreating() {
     const saveGroup = async () => {
         if(isEmpty(groupData.name)) return errorNotification("Please fill in the name field")
         try {
-            const res = await axios.post("/api/group", {
+            const res = await axiosInstance.post("/api/group", {
                 name: groupData.name,
                 description: groupData.description
             })

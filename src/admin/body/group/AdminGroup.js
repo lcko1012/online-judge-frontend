@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../../../context/authentication/authContext'
-import axios from 'axios'
 import { useContext } from 'react'
 import { errorNotification } from '../../../utils/notification/ToastNotification'
 import { isEmpty } from '../../../utils/validation/Validation'
+import { axiosInstance } from '../../../services/config'
 
 const ACTIONS = {
     ON_CHANGE: 'on-change',
@@ -60,7 +60,7 @@ function AdminGroup() {
     useEffect(() => {
         const getgroupList = async () => {
             try {
-                const res = await axios.get("/api/group");
+                const res = await axiosInstance.get("/api/group");
                 dispatch({ type: ACTIONS.GET_GROUP_LIST, payload: res.data })
             } catch (error) {
                 console.log(error)
@@ -99,7 +99,7 @@ function AdminGroup() {
         if (e.keyCode === 13) {
             if (isEmpty(searchName) && isEmpty(searchUsername)) return errorNotification("Please fill in search field")
             try {
-                const res = await axios.get("/api/group", {
+                const res = await axiosInstance.get("/api/group", {
                     params: {
                         name: searchName,
                         username: searchUsername
@@ -115,7 +115,7 @@ function AdminGroup() {
 
     const onClickReset = async () => {
         try {
-            const res = await axios.get('/api/group')
+            const res = await axiosInstance.get('/api/group')
             dispatch({ type: ACTIONS.RESET_GROUP, payload: res.data })
         } catch (error) {
             console.log(error)

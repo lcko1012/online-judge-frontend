@@ -1,6 +1,6 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { axiosInstance } from '../../../services/config'
 
 
 function SignUpActivation() {
@@ -9,7 +9,7 @@ function SignUpActivation() {
   useEffect(() => {
     const registerConfirm = async () => {
       try {
-        const res = await axios.post("/api/auth/activation", {
+        const res = await axiosInstance.post("/api/auth/activation", {
           activationToken: activationToken
         })
         if (res) {

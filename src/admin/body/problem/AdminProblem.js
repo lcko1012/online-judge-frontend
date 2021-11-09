@@ -4,8 +4,8 @@ import { useContext } from 'react'
 import AuthContext from '../../../context/authentication/authContext'
 import { isEmpty } from '../../../utils/validation/Validation'
 import { errorNotification } from '../../../utils/notification/ToastNotification'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { axiosInstance } from '../../../services/config'
 
 const ACTIONS = {
     ON_CHANGE: 'on-change',
@@ -64,7 +64,7 @@ function AdminProblem() {
     useEffect(() => {
         const getProblemList = async () => {
             try {
-                const res = await axios.get(`/api/problem/${checkRole()}`);
+                const res = await axiosInstance.get(`/api/problem/${checkRole()}`);
                 dispatch({type: ACTIONS.GET_PROBLEM_LIST, payload: res.data})
             } catch (error) {
                 console.log(error)
@@ -102,7 +102,7 @@ function AdminProblem() {
             if(isEmpty(searchProb)) return errorNotification("Please fill in search field")
             
             try {
-                const res = await axios.get(`/api/problem/${checkRole()}`, {
+                const res = await axiosInstance.get(`/api/problem/${checkRole()}`, {
                     params: {
                         searchTitle: searchProb
                     }
@@ -116,7 +116,7 @@ function AdminProblem() {
 
     const onClickReset = async () => {
         try {
-            const res = await axios.get(`/api/problem/${checkRole()}`)
+            const res = await axiosInstance.get(`/api/problem/${checkRole()}`)
             dispatch({type: ACTIONS.RESET_PROBLEM, payload: res.data})
         } catch (error) {
             console.log(error)

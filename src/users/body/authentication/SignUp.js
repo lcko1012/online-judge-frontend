@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import "./auth.scss";
 import { successNotification, errorNotification } from '../../../utils/notification/ToastNotification'
 import { isMatch, isLength } from '../../../utils/validation/Validation'
 import { Link } from 'react-router-dom';
+import { axiosInstance } from '../../../services/config';
 
 function SignUp() {
   const [dataForm, setDataForm] = useState({
@@ -32,7 +32,7 @@ function SignUp() {
     }
 
     try {
-      const res = await axios.post("/api/auth/register", {
+      const res = await axiosInstance.post("/api/auth/register", {
         username: username,
         email: email,
         password: password,
