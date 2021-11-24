@@ -26,7 +26,7 @@ function Header() {
 
             {user ?
               <li className="nav-item me-3">
-                <a className="nav-link " href="#">Submission</a>
+                <Link to="/submission" className="nav-link " >Submission</Link>
               </li> : 
             null}
           </ul>

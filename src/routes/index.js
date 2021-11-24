@@ -21,6 +21,7 @@ import AdminGroupCreating from '../admin/body/group/AdminGroupCreating'
 import AdminProblem from '../admin/body/problem/AdminProblem'
 import AdminProblemCreating from '../admin/body/problem/AdminProblemCreating'
 import AdminProblemDetail from '../admin/body/problem/AdminProblemDetail'
+import Submission from '../users/body/submission/Submission'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -53,6 +54,8 @@ export default () => {
             <AppRoute exact path="/forgot_password" component={ForgotPassword} layout={UserLayout} />
             <AppRoute exact path="/reset_password/:accessToken" component={ResetPassword} layout={UserLayout} />
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
+
+            <AppRoute exact path="/submission" component={Submission} layout={UserLayout} />
 
             <AppRoute exact path="/admin/home" component={checkRole() ? AdminHome: _403 } layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/post" component={checkRole() ? AdminPost : _403} layout={checkRole() ? AdminLayout : UserLayout} />
