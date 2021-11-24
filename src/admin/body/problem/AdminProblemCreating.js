@@ -433,7 +433,7 @@ function AdminProblemCreating() {
                         </div>
                         
                         {
-                            user.role === 'Admin' || user.username === problemState.author ? 
+                            (user.role === 'Admin' || user.username === problemState.author) || (user.role === 'Teacher' && !id)  ? 
                             <div>
                                     {id ? <button className="btn btn-outline-danger me-3" onClick={deleteProblem}>Delete</button> : null}
                                     <button className="btn btn-outline-dark" onClick={saveProblem}>Save</button>
