@@ -21,7 +21,12 @@ import AdminGroupCreating from '../admin/body/group/AdminGroupCreating'
 import AdminProblem from '../admin/body/problem/AdminProblem'
 import AdminProblemCreating from '../admin/body/problem/AdminProblemCreating'
 import AdminProblemDetail from '../admin/body/problem/AdminProblemDetail'
+<<<<<<< HEAD
 import Submission from '../users/body/submission/Submission'
+=======
+import Problem from '../users/body/problem/Problem'
+import ProblemDetail from '../users/body/problem/ProblemDetail'
+>>>>>>> d684a8f11cec1e371863d23d3b65a6dc6216c2c7
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -56,6 +61,9 @@ export default () => {
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
 
             <AppRoute exact path="/submission" component={Submission} layout={UserLayout} />
+            <AppRoute exact path="/problem" component={Problem} layout={UserLayout} />
+            <AppRoute exact path="/problem/:id/detail" component={ProblemDetail} layout={UserLayout} />
+
 
             <AppRoute exact path="/admin/home" component={checkRole() ? AdminHome: _403 } layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/post" component={checkRole() ? AdminPost : _403} layout={checkRole() ? AdminLayout : UserLayout} />
