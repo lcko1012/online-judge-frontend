@@ -97,8 +97,6 @@ function AdminProblem() {
 
     const onSubmitSearch = async (e) => {
         e.preventDefault()
-        
-        
             if(isEmpty(searchProb)) return errorNotification("Please fill in search field")
             
             try {
@@ -111,7 +109,6 @@ function AdminProblem() {
             } catch (error) {
                 errorNotification(error.response.data.message)
             }
-        
     }
 
     const onClickReset = async () => {

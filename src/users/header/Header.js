@@ -21,14 +21,12 @@ function Header() {
               <a className="nav-link" href="#">Contest</a>
             </li>
             <li className="nav-item me-3">
-              <a className="nav-link" href="#">Problem</a>
+              <Link to="/problem" className="nav-link">Problem</Link>
             </li>
 
-            {user ?
-              <li className="nav-item me-3">
-                <a className="nav-link " href="#">Submission</a>
-              </li> : 
-            null}
+            <li className="nav-item me-3">
+              <Link to="/problem"className="nav-link " >Submission</Link>
+            </li>
           </ul>
 
           <ul className="navbar-nav mb-2 mb-lg-0 d-flex">
