@@ -37,6 +37,7 @@ function AdminPostDetail() {
                     visibleMode: res.data.visibleMode
                 })
             } catch (error) {
+                history.push('/admin/post')
                 console.log(error)
             }
         }

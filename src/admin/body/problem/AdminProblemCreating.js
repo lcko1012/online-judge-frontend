@@ -234,6 +234,7 @@ function AdminProblemCreating() {
             await axiosInstance.post('/api/problem', problemRequest,config)
 
             successNotification(res.data.message)
+            history.push('/admin/problem')
         } catch (error) {
             error.response && errorNotification(error.response.data.message)
         }

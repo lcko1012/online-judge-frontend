@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import { axiosInstance } from '../../../services/config';
-import { errorNotification } from '../../../utils/notification/ToastNotification';
+import { errorNotification, successNotification } from '../../../utils/notification/ToastNotification';
 import MDEditor from '@uiw/react-md-editor'
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript'
@@ -16,6 +16,7 @@ function ProblemDetail() {
     const [isOpenLanguage, setOpenLanguage] = useState(false)
     const [codeValue, setCodeValue] = useState('')
     const [selectedLanguage, setSelectedLanguage] = useState('javascript')
+    const history = useHistory()
 
     useEffect(() => {
         if (id) {
@@ -23,7 +24,6 @@ function ProblemDetail() {
                 try {
                     const res = await axiosInstance.get(`/api/problem/user/${id}`);
                     setProblem(res.data)
-                    console.log(res.data)
                 } catch (error) {
                     error.response && errorNotification(error.response.data.message)
                 }
@@ -31,6 +31,7 @@ function ProblemDetail() {
             getProblem()
         }
     }, [id])
+
     const languageClass = `dropdown-menu${isOpenLanguage ? " show" : ""}`
 
     const languageArray = ["javascript", "java", "cpp", "python"]
@@ -64,8 +65,9 @@ function ProblemDetail() {
                 source_code: Buffer.from(codeValue).toString('base64'),
                 language_id: checkLanguageId(),
             })
+            successNotification(res.data.message)
+            history.push('/submission')
 
-            console.log(res)
         } catch (error) {
             error.response && errorNotification(error.response.data.message)
         }

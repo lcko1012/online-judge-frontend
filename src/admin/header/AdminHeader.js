@@ -30,7 +30,7 @@ function AdminHeader() {
                             <a className="nav-link" href="#">Contest</a>
                         </li>
                         <li className="nav-item me-3">
-                            <a className="nav-link" href="#">Submission</a>
+                            <Link className="nav-link" to="/admin/submission">Submission</Link>
                         </li>
 
                     </ul>

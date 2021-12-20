@@ -25,7 +25,7 @@ function Header() {
             </li>
 
             <li className="nav-item me-3">
-              <Link to="/problem"className="nav-link " >Submission</Link>
+              <Link to="/submission"className="nav-link">Submission</Link>
             </li>
           </ul>
 

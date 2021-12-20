@@ -21,8 +21,12 @@ import AdminGroupCreating from '../admin/body/group/AdminGroupCreating'
 import AdminProblem from '../admin/body/problem/AdminProblem'
 import AdminProblemCreating from '../admin/body/problem/AdminProblemCreating'
 import AdminProblemDetail from '../admin/body/problem/AdminProblemDetail'
+import Submission from '../users/body/submission/Submission'
 import Problem from '../users/body/problem/Problem'
 import ProblemDetail from '../users/body/problem/ProblemDetail'
+import SubmissionDetail from '../users/body/submission/SubmissionDetail'
+import AdminSubmission from '../admin/body/submission/AdminSubmission'
+import AdminSubmissionDetail from '../admin/body/submission/AdminSubmissionDetail'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -56,6 +60,8 @@ export default () => {
             <AppRoute exact path="/reset_password/:accessToken" component={ResetPassword} layout={UserLayout} />
             <AppRoute exact path="/user/activate/:activationToken" component={SignUpActivation} layout={UserLayout} />
 
+            <AppRoute exact path="/submission" component={Submission} layout={UserLayout} />
+            <AppRoute exact path="/submission/:id/detail" component={SubmissionDetail} layout={UserLayout} />
             <AppRoute exact path="/problem" component={Problem} layout={UserLayout} />
             <AppRoute exact path="/problem/:id/detail" component={ProblemDetail} layout={UserLayout} />
 
@@ -72,6 +78,10 @@ export default () => {
             <AppRoute exact path="/admin/problem" component={checkRole() ? AdminProblem : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/problem/new" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
             <AppRoute exact path="/admin/problem/:id/detail" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+
+            <AppRoute exact path="/admin/submission" component={checkRole() ? AdminSubmission : _403} layout={checkRole() ? AdminLayout : UserLayout} />
+            {/* <AppRoute exact path="/admin/problem/new" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} /> */}
+            <AppRoute exact path="/admin/submission/:id/detail" component={checkRole() ? AdminSubmissionDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
 
         </Switch>
     )

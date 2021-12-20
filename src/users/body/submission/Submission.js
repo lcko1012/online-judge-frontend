@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom'
 import { axiosInstance } from '../../../services/config'
 import { errorNotification } from '../../../utils/notification/ToastNotification'
 import { isEmpty } from '../../../utils/validation/Validation'
-import "./problem.scss"
 
 const ACTIONS = {
     ON_CHANGE: 'on-change',
     NEXT_PAGE: 'next-page',
     PREV_PAGE: 'prev-page',
-    GET_PROBLEM_LIST: 'get-problem-list',
-    RESET_PROBLEM: 'reset-problem',
+    GET_SUBMISSION_LIST: 'get-problem-list',
+    RESET_SUBMISSION: 'reset-submission',
     SUBMIT_SEARCH: 'submit-search'
 }
 
-function ProblemsRedecer(state, action) {
+function SubmissionsRedecer(state, action) {
     switch (action.type) {
         case ACTIONS.ON_CHANGE:
             return { ...state, [action.payload.name]: action.payload.value }
@@ -22,19 +21,19 @@ function ProblemsRedecer(state, action) {
             return { ...state, currentPage: state.currentPage + 1 }
         case ACTIONS.PREV_PAGE:
             return { ...state, currentPage: state.currentPage - 1 }
-        case ACTIONS.GET_PROBLEM_LIST:
-            return { ...state, problemList: action.payload }
-        case ACTIONS.RESET_PROBLEM:
+        case ACTIONS.GET_SUBMISSION_LIST:
+            return { ...state, submissionList: action.payload }
+        case ACTIONS.RESET_SUBMISSION:
             return {
                 ...state,
-                problemList: action.payload,
+                submissionList: action.payload,
                 currentPage: 1,
                 searchProb: ''
             }
         case ACTIONS.SUBMIT_SEARCH:
             return {
                 ...state,
-                problemList: action.payload,
+            submissionList: action.payload,
                 currentPage: 1
             }
         default:
@@ -42,25 +41,43 @@ function ProblemsRedecer(state, action) {
     }
 }
 
-function Problem() {
+function Submission() {
     const initialProblems = {
-        problemList: [],
+        submissionList: [],
         currentPage: 1,
         searchContent: '',
         searchAuthor: '',
-        searchDifficulty: ''
+        searchLanguage: '',
+        searchVerdict: ''
     }
-    const [problemsState, dispatch] = useReducer(ProblemsRedecer, initialProblems)
-    const { problemList, currentPage, searchContent, searchAuthor, searchDifficulty } = problemsState
-    const [problemsPerPage, setProblemsPerPage] = useState(10)
+    const [problemsState, dispatch] = useReducer(SubmissionsRedecer, initialProblems)
+    const { submissionList, currentPage, searchContent, searchAuthor, searchLanguage, searchVerdict } = problemsState
+    const [submissionsPerPage, setProblemsPerPage] = useState(10)
 
     useEffect(() => {
+        const updateSubmissionVerdict = async (id) => {
+            try {
+                const res = await axiosInstance.put(`/api/submission/update_verdict/${id}`);
+                dispatch({ type: ACTIONS.GET_SUBMISSION_LIST, payload: res.data })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         const getProblemList = async () => {
             try {
-                const res = await axiosInstance.get(`/api/problem/user`);
+                const res = await axiosInstance.get(`/api/submission/user`);
                 console.log(res.data)
-
-                dispatch({ type: ACTIONS.GET_PROBLEM_LIST, payload: res.data })
+                dispatch({ type: ACTIONS.GET_SUBMISSION_LIST, payload: res.data })
+                if (res.data.length > 0) {
+                    console.log(res.data)
+                    res.data.map((submission, index) => {
+                        if (submission.verdict === "Processing" || submission.verdict === "In Queue") {
+                            console.log("true")
+                            updateSubmissionVerdict(submission.id)
+                        }
+                    })
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -68,12 +85,12 @@ function Problem() {
         getProblemList()
     }, [])
 
-    const indexOfLastProblem = currentPage * problemsPerPage
-    const indexOfFirstProblem = indexOfLastProblem - problemsPerPage
-    const currentProblem = problemList.slice(indexOfFirstProblem, indexOfLastProblem)
+    const indexOfLastSubmission = currentPage * submissionsPerPage
+    const indexOfFirstSubmission = indexOfLastSubmission - submissionsPerPage
+    const currentSubmission = submissionList.slice(indexOfFirstSubmission, indexOfLastSubmission)
 
     const onClickNext = () => {
-        if (currentPage <= Math.floor(problemList.length / problemsPerPage)) {
+        if (currentPage <= Math.floor(submissionList.length / submissionsPerPage)) {
             dispatch({ type: ACTIONS.NEXT_PAGE })
         }
     }
@@ -95,14 +112,15 @@ function Problem() {
     const onSubmitSearch = async (e) => {
         e.preventDefault()
 
-        if (isEmpty(searchContent) && isEmpty(searchAuthor) && isEmpty(searchDifficulty)) return errorNotification("Please fill in search field")
+        if (isEmpty(searchContent) && isEmpty(searchAuthor) && isEmpty(searchVerdict) && isEmpty(searchLanguage) ) return errorNotification("Please fill in search field")
 
         try {
-            const res = await axiosInstance.get('/api/problem/user', {
+            const res = await axiosInstance.get('/api/submission/user', {
                 params: {
                     searchContent: searchContent,
                     searchAuthor: searchAuthor,
-                    searchDifficulty: searchDifficulty
+                    searchVerdict: searchVerdict,
+                    searchLanguage: searchLanguage
                 }
             })
             dispatch({ type: ACTIONS.SUBMIT_SEARCH, payload: res.data })
@@ -113,26 +131,24 @@ function Problem() {
 
     const onClickReset = async () => {
         try {
-            const res = await axiosInstance.get('/api/problem/user')
-            dispatch({ type: ACTIONS.RESET_PROBLEM, payload: res.data })
+            const res = await axiosInstance.get('/api/submission/user')
+            dispatch({ type: ACTIONS.RESET_SUBMISSION, payload: res.data })
         } catch (error) {
             console.log(error)
         }
     }
 
-    const difficultyClass = (level) => {
-        switch (level) {
-            case "Easy":
+    const verdictClass = (verdict) => {
+        switch (verdict) {
+            case "Correct":
                 return "problem__difficulty--easy"
 
-            case "Medium":
-                return "problem__difficulty--medium"
-            
-            case "Hard":
+            case "Wrong":
                 return "problem__difficulty--hard"
 
             default:
-                return "problem__difficulty-easy"
+                return "problem__difficulty--medium"
+
         }
     }
 
@@ -142,7 +158,7 @@ function Problem() {
                 <div class="accordion mb-4" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 Search/Filter
                             </button>
                         </h2>
@@ -172,13 +188,25 @@ function Problem() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="problem__block">Difficulty</label>
+                                        <label className="problem__block">Verdict</label>
                                         <input
                                             type="text"
                                             className="form-control problem__form-input-custom"
                                             placeholder="All"
-                                            name="searchDifficulty"
-                                            value={searchDifficulty}
+                                            name="searchVerdict"
+                                            value={searchVerdict}
+                                            onChange={onChangeSearch}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="problem__block">Language</label>
+                                        <input
+                                            type="text"
+                                            className="form-control problem__form-input-custom"
+                                            placeholder="All"
+                                            name="searchLanguage"
+                                            value={searchLanguage}
                                             onChange={onChangeSearch}
                                         />
                                     </div>
@@ -199,32 +227,38 @@ function Problem() {
                     </div>
                 </div>
 
+
+
                 <div className="card card-body border-0 shadow table-wrapper table-responsive">
                     <table className="table table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Title</th>
+                                <th>Problem</th>
                                 <th>Author</th>
-                                <th>Level</th>
-                                <th>Created</th>
-                                <th>Tries</th>
-                                <th>Correct</th>
+                                <th>Status</th>
+                                <th>Language</th>
+                                <th>When</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {problemList.length > 0 ?
+                            {submissionList.length > 0 ?
                                 <>
                                     {
-                                        currentProblem.map((prob, index) =>
-                                            <tr key={prob.id}>
+                                        currentSubmission.map((submission, index) =>
+                                            <tr key={submission.id}>
                                                 <td><span className="fw-normal">{currentPage * 10 - 10 + index}</span></td>
-                                                <td><Link to={`/problem/${prob.id}/detail`} className="text-black"><span className="fw-normal">{prob.title.length > 20 ? `${prob.title.slice(0, 20)}...` : prob.title}</span></Link></td>
-                                                <td><span className="fw-normal">{prob.author}</span></td>
-                                                <td><span className={`fw-normal problem__difficulty ${difficultyClass(prob.difficulty)}`}>{prob.difficulty}</span></td>
-                                                <td>{new Date(prob.createdAt).toDateString().slice(4, 15)}</td>
-                                                <td><span className="fw-normal">{prob.tries}</span></td>
-                                                <td><span className="fw-normal">{prob.correctCount}</span></td>
+                                                <td><span className="fw-normal">{submission.problem.title.length > 20 ? `${submission.problem.title.slice(0, 20)}...` : submission.problem.title}</span></td>
+                                                <td><span className="fw-normal">{submission.author}</span></td>
+                                                <td><span className={`fw-normal problem__difficulty ${verdictClass(submission.verdict)}`}>{submission.verdict}</span></td>
+                                                <td><span className="fw-normal">{submission.language}</span></td>
+                                                <td><span className="fw-normal">{new Date(submission.createdAt).toDateString().slice(4, 15)}</span></td>
+                                                <td>
+                                                    <Link to={`/submission/${submission.id}/detail`}>
+                                                        <button className="btn btn-outline-dark">Detail</button>
+                                                    </Link>
+                                                </td>
                                             </tr>
                                         )
                                     }
@@ -263,4 +297,4 @@ function Problem() {
     )
 }
 
-export default Problem
+export default Submission
