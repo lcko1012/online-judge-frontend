@@ -7,3 +7,37 @@
     border: 1px solid rgb(70, 70, 70);
     min-height: 300px;
 }
+
+.problem__difficulty {
+    padding: 5px;
+    border-radius: 3px;
+    color : white;
+}
+
+.problem__difficulty--easy {
+    background-color: #198754;
+    // color: #198754;
+}
+
+.problem__difficulty--medium {
+    background-color: #ffc107;
+    // color: #ffc107;
+}
+
+.problem__difficulty--hard {
+    background-color: #dc3545;
+    // color: #dc3545;
+}
+
+.problem__difficulty--easy-color {
+    color: #198754;
+}
+
+.problem__difficulty--medium-color {
+    
+    color: #ffc107;
+}
+
+.problem__difficulty--hard-color {
+    color: #dc3545;
+}

@@ -58,6 +58,8 @@ function Problem() {
         const getProblemList = async () => {
             try {
                 const res = await axiosInstance.get(`/api/problem/user`);
+                console.log(res.data)
+
                 dispatch({ type: ACTIONS.GET_PROBLEM_LIST, payload: res.data })
             } catch (error) {
                 console.log(error)
@@ -118,13 +120,29 @@ function Problem() {
         }
     }
 
+    const difficultyClass = (level) => {
+        switch (level) {
+            case "Easy":
+                return "problem__difficulty--easy"
+
+            case "Medium":
+                return "problem__difficulty--medium"
+            
+            case "Hard":
+                return "problem__difficulty--hard"
+
+            default:
+                return "problem__difficulty-easy"
+        }
+    }
+
     return (
         <div className="min-vh-100">
             <div className="container mt-5 mb-5">
                 <div class="accordion mb-4" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                 Search/Filter
                             </button>
                         </h2>
@@ -181,8 +199,6 @@ function Problem() {
                     </div>
                 </div>
 
-
-
                 <div className="card card-body border-0 shadow table-wrapper table-responsive">
                     <table className="table table-hover">
                         <thead>
@@ -202,17 +218,13 @@ function Problem() {
                                     {
                                         currentProblem.map((prob, index) =>
                                             <tr key={prob.id}>
-                                            
-
                                                 <td><span className="fw-normal">{currentPage * 10 - 10 + index}</span></td>
                                                 <td><Link to={`/problem/${prob.id}/detail`} className="text-black"><span className="fw-normal">{prob.title.length > 20 ? `${prob.title.slice(0, 20)}...` : prob.title}</span></Link></td>
                                                 <td><span className="fw-normal">{prob.author}</span></td>
-                                                <td><span className="fw-normal">{prob.difficulty}</span></td>
-                                                <td>{new Date(prob.createdAt).toLocaleDateString()}</td>
-                                                <td><span className="fw-normal">{prob.totalAttempt}</span></td>
-                                                <td><span className="fw-normal">{prob.correctAttempt}</span></td>
-                                                
-                                           
+                                                <td><span className={`fw-normal problem__difficulty ${difficultyClass(prob.difficulty)}`}>{prob.difficulty}</span></td>
+                                                <td>{new Date(prob.createdAt).toDateString().slice(4, 15)}</td>
+                                                <td><span className="fw-normal">{prob.tries}</span></td>
+                                                <td><span className="fw-normal">{prob.correctCount}</span></td>
                                             </tr>
                                         )
                                     }
