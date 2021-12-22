@@ -58,8 +58,6 @@ function Problem() {
         const getProblemList = async () => {
             try {
                 const res = await axiosInstance.get(`/api/problem/user`);
-                console.log(res.data)
-
                 dispatch({ type: ACTIONS.GET_PROBLEM_LIST, payload: res.data })
             } catch (error) {
                 console.log(error)

@@ -67,13 +67,10 @@ function Submission() {
         const getProblemList = async () => {
             try {
                 const res = await axiosInstance.get(`/api/submission/user`);
-                console.log(res.data)
                 dispatch({ type: ACTIONS.GET_SUBMISSION_LIST, payload: res.data })
                 if (res.data.length > 0) {
-                    console.log(res.data)
                     res.data.map((submission, index) => {
                         if (submission.verdict === "Processing" || submission.verdict === "In Queue") {
-                            console.log("true")
                             updateSubmissionVerdict(submission.id)
                         }
                     })

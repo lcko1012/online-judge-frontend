@@ -55,7 +55,6 @@ function AdminSubmission() {
         const getProblemList = async () => {
             try {
                 const res = await axiosInstance.get(`/api/submission/admin`);
-                console.log(res.data)
                 dispatch({ type: ACTIONS.GET_SUBMISSION_LIST, payload: res.data })
             } catch (error) {
                 console.log(error)

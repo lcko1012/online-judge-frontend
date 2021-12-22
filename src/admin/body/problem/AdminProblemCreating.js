@@ -114,7 +114,6 @@ function AdminProblemCreating() {
             const getProblem = async () => {
                 try {
                     const res = await axiosInstance.get(`/api/problem/${checkRole()}/${id}`);
-                    console.log(res.data);
                     setStatement(res.data.statement);
                     dispatch({type: ACTIONS.GET_PROBLEM, payload: res.data})
                 } catch (error) {
@@ -134,7 +133,7 @@ function AdminProblemCreating() {
                 const res = await axiosInstance.post('/api/problem/validate_zip', formData)
                 successNotification(res.data.message)
             } catch (error) {
-                error.response.data && errorNotification(error.response.data.message)
+                // error.response.data && errorNotification(error.response.data.message)
             }
         }
     }
