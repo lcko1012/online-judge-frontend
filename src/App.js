@@ -20,7 +20,6 @@ function App() {
             const res = await axiosInstance.get("/api/auth/refresh_token")
             if(res) {
               cookiesService.setToken(res.data.accessToken)
-              console.log(res.data)
               authContext.login()
             }
          } catch (error) {

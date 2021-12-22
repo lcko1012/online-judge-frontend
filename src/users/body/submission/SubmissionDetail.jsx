@@ -56,7 +56,6 @@ function SubmissionDetail() {
       const getProblem = async () => {
         try {
           const res = await axiosInstance.get(`/api/submission/user/${id}`);
-          console.log(res.data)
           dispatch({ type: ACTIONS.GET_SUBMISSION, payload: res.data })
           setCodeValue(Buffer.from(res.data.source, 'base64').toString('ascii'))
         } catch (error) {

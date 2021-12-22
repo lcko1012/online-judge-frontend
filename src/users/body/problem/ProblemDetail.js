@@ -16,6 +16,7 @@ function ProblemDetail() {
     const [isOpenLanguage, setOpenLanguage] = useState(false)
     const [codeValue, setCodeValue] = useState('')
     const [selectedLanguage, setSelectedLanguage] = useState('javascript')
+    const [isSubmit, setIsSubmit] = useState(false)
     const history = useHistory()
 
     useEffect(() => {
@@ -61,6 +62,7 @@ function ProblemDetail() {
 
     const submitCode = async () => {
         try {
+            setIsSubmit(true)
             const res = await axiosInstance.post(`/api/submission/${id}`, {
                 source_code: Buffer.from(codeValue).toString('base64'),
                 language_id: checkLanguageId(),
@@ -69,6 +71,7 @@ function ProblemDetail() {
             history.push('/submission')
 
         } catch (error) {
+            setIsSubmit(false)
             error.response && errorNotification(error.response.data.message)
         }
     }
@@ -132,7 +135,7 @@ function ProblemDetail() {
                     </div>
 
                     <div className="mt-3 text-end">
-                        <button className="btn btn-dark" onClick={submitCode}>Submit</button>
+                        <button className="btn btn-dark" disabled={isSubmit} onClick={submitCode}>Submit</button>
                     </div>
                 </div>
             </div>
