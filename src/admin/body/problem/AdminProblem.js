@@ -63,11 +63,9 @@ function AdminProblem() {
 
     useEffect(() => {
         const getProblemList = async () => {
-            try {
-                const res = await axiosInstance.get(`/api/problem/${checkRole()}`);
+            const res = await axiosInstance.get(`/api/problem/${checkRole()}`);
+            if(res.status === 200) {
                 dispatch({type: ACTIONS.GET_PROBLEM_LIST, payload: res.data})
-            } catch (error) {
-                console.log(error)
             }
         }
         getProblemList()
