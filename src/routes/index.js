@@ -27,6 +27,7 @@ import ProblemDetail from '../users/body/problem/ProblemDetail'
 import SubmissionDetail from '../users/body/submission/SubmissionDetail'
 import AdminSubmission from '../admin/body/submission/AdminSubmission'
 import AdminSubmissionDetail from '../admin/body/submission/AdminSubmissionDetail'
+import AdminUser from '../admin/body/user/AdminUser'
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => {
@@ -83,6 +84,7 @@ export default () => {
             {/* <AppRoute exact path="/admin/problem/new" component={checkRole() ? AdminProblemCreating : _403} layout={checkRole() ? AdminLayout : UserLayout} /> */}
             <AppRoute exact path="/admin/submission/:id/detail" component={checkRole() ? AdminSubmissionDetail : _403} layout={checkRole() ? AdminLayout : UserLayout} />
 
+            <AppRoute exact path="/admin/user/" component={checkRole() ? AdminUser : _403} layout={checkRole() ? AdminLayout : UserLayout} />
         </Switch>
     )
 }

@@ -18,7 +18,7 @@ function AdminHeader() {
                             <Link className="nav-link" to="/admin/post">Post</Link>
                         </li>
                         <li className="nav-item me-3">
-                            <a className="nav-link" href="#">User</a>
+                            <Link className="nav-link" to="/admin/user">User</Link>
                         </li>
                         <li className="nav-item me-3">
                             <Link className="nav-link" to="/admin/group">Group</Link>
